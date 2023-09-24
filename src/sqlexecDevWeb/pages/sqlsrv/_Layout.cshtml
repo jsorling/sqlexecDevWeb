@@ -6,6 +6,7 @@
 <html data-bs-theme="auto" lang="en">
 <head>
     <meta name="viewport" content="width=device-width" />
+    <meta name="build-info" content="@await Html.PartialAsync("BuildInfo")">
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" asp-append-version="true" />
     <link data-name="vs/editor/editor.main" rel="stylesheet" href="~/lib/monaco-editor/min/vs/editor/editor.main.min.css">
