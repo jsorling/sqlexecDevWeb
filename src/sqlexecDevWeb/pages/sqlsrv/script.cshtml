@@ -1,0 +1,23 @@
+﻿@page "{db}/{schema?}/{obj?}/{filter:int?}/{filterschema?}"
+@model Sorling.sqlexecDevWeb.pages.sqlsrv.ScriptModel
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <textarea asp-for="ScriptInputModel!.SqlScriptText" class="form-control" hidden></textarea>
+    <div data-editor="sql" data-inputsource="ScriptInputModel_SqlScriptText" style="height: calc(50vh - 35px);"></div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Get result set(s)</button>
+    </div>
+</form>
+@if (Model.ResultSets is not null)
+{
+    <partial name="_resultSetsPartial" for="@Model.ResultSets" />
+}
+@if (!string.IsNullOrEmpty(Model.ResultSetSql))
+{
+    <pre>
+    <code id="sqltext" data-lang="sql">
+            @Model.ResultSetSql
+            </code>
+        </pre>
+}

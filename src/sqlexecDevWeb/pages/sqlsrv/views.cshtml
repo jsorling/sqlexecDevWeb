@@ -1,0 +1,18 @@
+﻿@page "{db}/{schema?}/{obj?}/{filter:int?}/{filterschema?}"
+@model Sorling.sqlexecDevWeb.pages.sqlsrv.ViewsModel
+@{
+}
+
+@if(Model.DBItems is not null) {
+    <partial name="_schemaNavSelectPartial" for="@Model" />
+    <partial name="_itemsListPartial" for="@Model" />
+}
+else if(Model.View is not null){
+    var first = Model.View.First();
+    <partial name="_itemPrevNxtPartial" for="@Model" />
+    <h1>View @($"{first.Schema}.{first.Name}")</h1>
+    <h2>Columns</h2>
+    <partial name="_fieldsNParamsPartial" for="@Model.View"/>
+}
+
+<partial name="_itemTextPartial" for="@Model" />

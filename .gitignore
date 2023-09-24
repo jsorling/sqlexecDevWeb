@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/src/sqlexecDevWeb/bin
+/src/sqlexecDevWeb/obj
+/src/sqlexecDevWeb/wwwroot/lib
+/src/.vs

@@ -1,0 +1,27 @@
+﻿@using Sorling.sqlexecDevWeb.models.pagemodels
+@using Sorling.sqlexecDevWeb.extensions
+@model DBItemPageModel
+
+@if (Model.SqlItemPrevNxt is not null)
+{
+    <div class="btn-group btn-group-sm container-fluid">
+        @if (Model.SqlItemPrevNxt.PreviousName is not null)
+        {
+            <a class="btn btn-secondary" href="@($"{SqlAuth.UriEscapedPath()}/{Model.SqlItemPrevNxt.PreviousGroup}/{Model.DBName}/{Model.SqlItemPrevNxt.PreviousSchema}/{Model.SqlItemPrevNxt.PreviousName}/{Model.FilterInt}/{Model.FilterSchema}")">&lt;&lt;Previous @Model.SqlItemPrevNxt.PreviousId</a>
+        }
+        else
+        {
+            <span class="btn btn-secondary disabled">&lt;&lt;Previous</span>
+        }
+        <a class="btn btn-secondary" href="@($"{SqlAuth.UriEscapedPath()}/{Model.FilterGroupFlags.GetPageAction()}/{Model.DBName}/{Model.FilterSchema}")">List</a>
+        @if (Model.SqlItemPrevNxt.NextName is not null)
+        {
+            <a class="btn btn-secondary" href="@($"{SqlAuth.UriEscapedPath()}/{Model.SqlItemPrevNxt.NextGroup}/{Model.DBName}/{Model.SqlItemPrevNxt.NextSchema}/{Model.SqlItemPrevNxt.NextName}/{Model.FilterInt}/{Model.FilterSchema}")">Next @(Model.SqlItemPrevNxt.NextId)&gt;&gt;</a>
+        }
+        else
+        {
+            <span class="btn btn-secondary disabled">Next&gt;&gt;</span>
+        }
+    </div>
+}
+

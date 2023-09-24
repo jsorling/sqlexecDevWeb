@@ -1,0 +1,19 @@
+﻿@page "{db}/{schema?}/{obj?}/{filter:int?}/{filterschema?}"
+@using Sorling.sqlexecDevWeb.pages.sqlsrv;
+@model FunctionsModel
+@{
+}
+
+@if(Model.DBItems is not null) {
+    <partial name="_schemaNavSelectPartial" for="@Model" />
+    <partial name="_itemsListPartial" for="@Model" />
+} 
+else if(Model.Function is not null){
+    var first = Model.Function.First();
+    <partial name="_itemPrevNxtPartial" for="@Model" />
+    <h1>Function @($"{first.Schema}.{first.Name}")</h1>
+    <h2>Columns and parameters</h2>
+    <partial name="_fieldsNParamsPartial" for="@Model.Function"/>
+}
+
+<partial name="_itemTextPartial" for="@Model" />

@@ -1,0 +1,5 @@
+﻿@page "{db}/{schema?}"
+@model Sorling.sqlexecDevWeb.pages.sqlsrv.ObjectsModel
+
+<partial name="_schemaNavSelectPartial" for="@Model" />
+<partial name="_itemsListPartial" for="@Model" />

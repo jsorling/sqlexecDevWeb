@@ -1,0 +1,15 @@
+﻿@page "{db}/{schema?}/{obj?}/{filter:int?}/{filterschema?}"
+@using Sorling.sqlexecDevWeb.pages.sqlsrv;
+@model CheckConstraintsModel
+@{
+}
+
+<partial name="_schemaNavSelectPartial" for="@Model" />
+<partial name="_itemsListPartial" for="@Model" />
+
+@if (Model.CheckConstraintItem is not null)
+{
+    <partial name="_itemPrevNxtPartial" for="@Model" />
+    <h1>Check constraint @($"{Model.CheckConstraintItem.SchemaName}.{Model.CheckConstraintItem.Name}")</h1>
+    <partial name="_itemTextPartial" for="@Model" />
+}

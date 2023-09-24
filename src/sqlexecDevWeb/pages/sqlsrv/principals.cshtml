@@ -1,0 +1,20 @@
+﻿@page "{db}/{schema?}"
+@using Sorling.sqlexecDevWeb.extensions;
+@model Sorling.sqlexecDevWeb.pages.sqlsrv.PrincipalsModel
+@{
+}
+<partial name="_schemaNavSelectPartial" for="@Model" />
+@if (Model.Principals is not null)
+{
+    <table class="table table-striped">
+        <tr><th>Schema</th><th>Name</th><th>Type</th></tr>
+        @foreach (var item in Model.Principals)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Authentication_type_desc</td>
+                <td>@item.GroupFlag.GetGroupItemName()</td>
+            </tr>
+        }
+    </table>
+}

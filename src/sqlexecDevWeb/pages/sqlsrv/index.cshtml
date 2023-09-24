@@ -1,0 +1,9 @@
+﻿@page
+@using Sorling.sqlexecDevWeb.pages.sqlsrv;
+@model IndexModel
+<table>
+    @foreach (var db in Model.DBs!)
+    {
+       <tr><td><a href="@($"{SqlAuth.UriEscapedPath()}/objects/{db.Name}")">@db.Name</a></td></tr>
+    }
+</table>

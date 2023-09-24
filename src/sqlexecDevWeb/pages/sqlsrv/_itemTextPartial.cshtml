@@ -1,0 +1,14 @@
+﻿@using Sorling.sqlexecDevWeb.models.pagemodels
+@model DBItemPageModel
+
+@if (!string.IsNullOrEmpty(Model.DefinitionText)) {
+    <h2>Definition SQL</h2>
+    <pre><code id="sqltext" data-lang="sql">
+@Model.DefinitionText
+    </code></pre>
+}
+else if(Model.DefinitionTextException is not null)
+{
+    <h2>SQL DDL - error</h2>
+    <div class="text-danger">@Model.DefinitionTextException.Message</div>
+}

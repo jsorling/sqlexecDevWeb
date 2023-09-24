@@ -1,0 +1,32 @@
+﻿@using Sorling.SqlExecMeta.objects
+@using Sorling.SqlExecMeta.sql2code
+@using Sorling.SqlExecMeta.sql2code.csharp
+@model Dictionary<int, IEnumerable<SqlResultSetColumn>>
+
+@if (Model is not null && Model.Any())
+{
+    ISql2CodeMapper csMapper = new Sql2CSharp();
+    <table class="table table-striped">
+        <tr><th>Name</th><th>Declaration</th><th>Source</th><th>C#</th></tr>
+        @foreach (var k in Model.Keys.OrderBy(o => o))
+        {
+            <tr>
+                <td colspan="4">
+                    <b>
+                        @(Model[k].GetSuggestedPropertyName() ?? "Result set") - @k
+                    </b>
+                </td>
+            </tr>
+            @foreach (var c in Model[k].OrderBy(o => o.FieldIndex))
+            {
+                <tr>
+                    <td>@c.FieldName</td>
+                    <td>@c.GetSqlFieldDeclaration()</td>
+                    <td>@($"{c.DbColumn?.BaseTableName}.{c.DbColumn?.BaseColumnName ?? c.FieldName}")</td>
+                    <td>@csMapper.MapSql2CodeVar(c)</td>
+                </tr>
+            }
+
+        }
+    </table>
+}

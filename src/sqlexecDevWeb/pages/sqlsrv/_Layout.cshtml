@@ -1,0 +1,42 @@
+﻿@{
+    string? schema = ViewContext.RouteData.Values["schema"]?.ToString()?.Split("/").Last();
+}
+<!DOCTYPE html>
+
+<html data-bs-theme="auto" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" asp-append-version="true" />
+    <link data-name="vs/editor/editor.main" rel="stylesheet" href="~/lib/monaco-editor/min/vs/editor/editor.main.min.css">
+    <script src="~/js/themeswitcher.js" asp-append-version="true"></script>
+</head>
+<body>
+    <nav class="navbar sticky-top bg-primary">
+        <div class="container-fluid">
+            <a class="nav-link text-light" href="/">
+                <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
+                    <img src="/img/connect.png" />
+                </span>
+            </a>
+            <a class="nav-link text-light" href="@($"{SqlAuth.UriEscapedPath()}")">@(SqlAuth.SqlConnAuthenticationData.SqlServer)/@SqlAuth.SqlConnAuthenticationData.UserName</a>
+            @if (ViewContext.RouteData.Values["db"] is string db)
+            {
+                <a class="nav-link text-light" href="@($"{SqlAuth.UriEscapedPath()}/objects/{db}/{schema}")">Database:@(db)</a>
+                <a class="nav-link text-light" href="@($"{SqlAuth.UriEscapedPath()}/script/{db}/{schema}")">Script</a>
+                <a class="nav-link text-light" href="#">Project</a>
+            }
+            <partial name="_themeButton" />
+        </div>
+    </nav>
+    <div class="container">
+        @RenderBody()
+    </div>
+    <script src="~/lib/jquery/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="~/lib/monaco-editor/min/vs/loader.min.js" asp-append-version="true"></script>
+    <script src="~/js/editor.js" asp-append-version="true"></script>
+</body>
+</html>

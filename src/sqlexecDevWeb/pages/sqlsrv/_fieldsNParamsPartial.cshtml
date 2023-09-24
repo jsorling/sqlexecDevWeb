@@ -1,0 +1,20 @@
+﻿@using Sorling.SqlExecMeta.objects
+@using Sorling.SqlExecMeta.sql2code
+@using Sorling.SqlExecMeta.sql2code.csharp
+@model IEnumerable<ISqlFieldNParamDefinition>
+
+@{
+    ISql2CodeMapper csMapper = new Sql2CSharp();
+}
+
+<table class="table table-striped">
+    <tr><th>Name</th><th>Declaration</th><th>C#</th></tr>
+    @foreach (var item in Model.Where(w => !string.IsNullOrEmpty(w.FieldTypeName)))
+    {
+        <tr>
+            <td>@item.FieldName</td>
+            <td>@item.GetSqlFieldDeclaration()</td>
+            <td>@csMapper.MapSql2CodeVar(item)</td>
+        </tr>
+    }
+</table>

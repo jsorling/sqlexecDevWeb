@@ -1,0 +1,74 @@
+﻿@page "{db}/{schema?}/{obj?}/{filter:int?}/{filterschema?}"
+@using Sorling.SqlExecMeta.objects
+@using Sorling.SqlExecMeta.sql2code
+@using Sorling.SqlExecMeta
+@using Sorling.SqlExecMeta.sql2code.csharp
+@model Sorling.sqlexecDevWeb.pages.sqlsrv.StoredProceduresModel
+
+@if (Model.DBItems is not null)
+{
+    <partial name="_schemaNavSelectPartial" for="@Model" />
+    <partial name="_itemsListPartial" for="@Model" />
+}
+else if(Model.SP is not null)
+{
+    var first = Model.SP.First();
+    ISql2CodeMapper csMapper = new Sql2CSharp();
+    var param = Model.SP.Where(w => w.FieldIndex is not null)
+        .Select(s => csMapper.MapSql2CodeProperty(s));
+    <partial name="_itemPrevNxtPartial" for="@Model" />
+    <h1>Stored procedure @($"{first.Schema}.{first.Name}")</h1>
+    <h2>Parameters</h2>
+    <partial name="_fieldsNParamsPartial" for="@Model.SP"/>    
+    <div>
+        <h2>C#</h2>
+        <pre id="csharp" data-lang="csharp">
+using Sorling.SqlExec.mapper.commands;
+using Sorling.SqlExec.mapper.results;
+
+namespace Sorling.SqlExecMeta.objects;
+
+            @if (param.Any())
+            {
+                <text>
+public record @($"{first.Name}Cmd")(
+  @(string.Join(",\n  ", param))) : SQLExecBaseCommand</text>
+            }
+            else
+            {
+                <text>public record @($"{first.Name}Cmd")() : SQLExecBaseCommand</text>
+            }
+
+{
+   public override CommandType SQLExecCommandType => CommandType.StoredProcedure;
+
+   public override string SQLExecSQLText => "@($"{first.Schema}.{first.Name}")";
+            @if (Model.ResultSets is not null && Model.ResultSetError is null)
+            {
+                foreach (var rs in Model.ResultSets)
+                {
+                    var fields = string.Join(", \r\n     ", rs.Value.Select(s => csMapper.MapSql2CodeProperty(s)));
+<text>
+   [RsesultSetRow(@(rs.Key))]
+   public record @(rs.Value.GetSuggestedPropertyName() ?? $"ResultSet{rs.Key}")(
+     @fields
+   ):SqlBaseResult;
+ </text>
+                }
+            }
+}
+       </pre>
+    </div>
+}
+
+@if(Model.ResultSetError is not null)
+{
+    <H2>Error fetching resultset(s)</H2>
+    <div class="text-danger">@Model.ResultSetError.Message</div>
+}
+
+@if(Model.ResultSets is not null){
+    <partial name="_resultSetsPartial" for="@Model.ResultSets" />
+}
+
+<partial name="_itemTextPartial" for="@Model" />

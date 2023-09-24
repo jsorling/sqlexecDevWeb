@@ -1,0 +1,28 @@
+﻿@page "{db}/{schema?}/{obj?}/{filter:int?}/{filterschema?}"
+@using Sorling.SqlExecMeta.types;
+@model Sorling.sqlexecDevWeb.pages.sqlsrv.TypesModel
+@{
+}
+
+<partial name="_schemaNavSelectPartial" for="@Model" />
+<partial name="_itemsListPartial" for="@Model" />
+
+@* @if (Model.DBItems is IEnumerable<SqlTypeListItem> items)
+{
+    <table class="table table-striped">
+        <tr><th>Schema</th><th>Name</th><th>Type</th></tr>
+        @foreach (var item in items)
+        {
+            <tr>
+                <td>@item.SchemaName</td>
+                <td>@item.Name</td>
+                <td>@item.Collation_name</td>
+            </tr>
+        }
+    </table>
+} *@
+@if(Model.TypeItem is not null)
+{
+    <partial name="_itemPrevNxtPartial" for="@Model" />
+    <h1>Type @($"{Model.TypeItem.SchemaName}.{Model.TypeItem.Name}")</h1>
+}

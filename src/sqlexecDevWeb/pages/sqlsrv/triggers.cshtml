@@ -1,0 +1,16 @@
+﻿@page "{db}/{schema?}/{obj?}/{filter:int?}/{filterschema?}"
+@model Sorling.sqlexecDevWeb.pages.sqlsrv.TriggersModel
+@{
+}
+@if (Model.DBItems is not null)
+{
+    <partial name="_schemaNavSelectPartial" for="@Model" />
+    <partial name="_itemsListPartial" for="@Model" />
+}
+else if (Model.Trigger is not null)
+{
+    <partial name="_itemPrevNxtPartial" for="@Model" />
+    <h1>Trigger @($"{Model.Trigger.SchemaName}.{Model.Trigger.Name}")</h1>    
+}
+
+<partial name="_itemTextPartial" for="@Model" />

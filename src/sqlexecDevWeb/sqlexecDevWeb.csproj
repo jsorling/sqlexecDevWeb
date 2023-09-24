@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <Version>0.8.0.0</Version>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <AssemblyName>Sorling.$(MSBuildProjectName)</AssemblyName>
+        <RootNamespace>Sorling.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
+        <PackageReference Include="Sorling.SqlConnAuthWeb" Version="0.8.1.5" />
+        <PackageReference Include="Sorling.SqlExecMeta" Version="0.8.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="wwwroot\img\" />
+    </ItemGroup>
+</Project>
