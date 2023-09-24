@@ -7,6 +7,7 @@ env:
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
   WORKING_DIRECTORY: .
+  PS_SOURCE_URL: "https://raw.githubusercontent.com/jsorling/miscscripts/main/github/actions"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,6 +17,9 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+    - name: Set build info
+      run: '& iex ((New-Object System.Net.WebClient).DownloadString("$env:PS_SOURCE_URL/buildinfo.ps1"))'
+      shell: pwsh
     - name: Restore
       run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
     - name: Build
