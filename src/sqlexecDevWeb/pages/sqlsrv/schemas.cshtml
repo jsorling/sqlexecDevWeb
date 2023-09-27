@@ -1,0 +1,20 @@
+﻿@page "{db}/{schema?}"
+@using Sorling.sqlexecDevWeb.models.pagemodels;
+@using Sorling.sqlexecDevWeb.pages.sqlsrv;
+@model SchemasModel
+@{
+}
+@if (Model.DBSchemas is not null)
+{
+    <table>
+        @foreach (var sc in Model.DBSchemas)
+        {
+            <tr><td><a href="@($"{SqlAuth.UriEscapedPath()}/objects/{Model.DBName}/{sc}")">@sc</a></td></tr>
+        }
+    </table>
+}
+else if(Model.SchemaError is not null)
+{
+    <h2>Schema - error</h2>
+    <div class="text-danger">@Model.SchemaError.Message</div>
+}

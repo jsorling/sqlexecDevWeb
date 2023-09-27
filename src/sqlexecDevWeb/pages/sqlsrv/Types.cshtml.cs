@@ -22,7 +22,7 @@ public class TypesModel : DBItemPageModel
    protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
       => await SqlMetadataProvider.GetSqlTypePrevNxtAsync(ItemFullName!, FilterSchema);
 
-   protected async override Task<ISqlItem?> GetSqlItemAsync() {
+   protected override async Task<ISqlItem?> GetSqlItemAsync() {
       TypeItem = await SqlMetadataProvider.GetSqlTypeAsync(DBSchema!, ItemName!);
       return TypeItem;
    }

@@ -20,7 +20,7 @@ public class DefaultConstraintsModel : DBItemPageModel
    protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
       => await SqlMetadataProvider.GetSqlDefaultConstraintPrevNxtAsync(ItemFullName!, FilterSchema);
 
-   protected async override Task<ISqlItem?> GetSqlItemAsync() {
+   protected override async Task<ISqlItem?> GetSqlItemAsync() {
       DefaultConstraintItem = await SqlMetadataProvider.GetSqlDefaultConstraintAsync(DBSchema!, ItemName!);
       return DefaultConstraintItem;
    }

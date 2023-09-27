@@ -4,8 +4,11 @@ using Sorling.SqlConnAuthWeb.razor;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSqlConnAuthentication(o=>{ o.AllowWinauth = true; 
-   o.ThemeSwitcherLocalStorageName = "theme"; o.SqlRootPath = "sqlsrv"; })
+builder.Services.AddSqlConnAuthentication(o => {
+   o.AllowWinauth = true;
+   o.ThemeSwitcherLocalStorageName = "theme";
+   o.SqlRootPath = "sqlsrv";
+})
    .AddSqlConnAuthorization().AddRazorPages(options => {
       _ = options.Conventions.AuthorizeFolder("/sqlsrv", SqlConnAuthConsts.SQLCONNAUTHPOLICY);
       options.Conventions.Add(new SqlConnAuthPageRouteModelConvention("sqlsrv"));

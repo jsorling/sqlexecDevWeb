@@ -9,7 +9,7 @@ public class IndexModel : PageModel
 {
    protected readonly ISqlConnAuthenticationService _sqlauth;
 
-   public IndexModel(ISqlConnAuthenticationService sqlConnAuthenticationService) =>_sqlauth = sqlConnAuthenticationService;
+   public IndexModel(ISqlConnAuthenticationService sqlConnAuthenticationService) => _sqlauth = sqlConnAuthenticationService;
 
    public SqlConnAuthenticationOptions SqlConnAuthenticationOptions => _sqlauth.Options;
 

@@ -22,12 +22,12 @@ public class StoredProceduresModel : DBItemPageModel
 
    public Exception? ResultSetError { get; private set; }
 
-   protected async override Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
+   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
       => await SqlMetadataProvider.GetSqlObjectPrevNxtAsync(ItemFullName ?? "", GroupFlags.GetPageAction(), FilterSchema, FilterGroupFlags);
 
-   protected async override Task<string?> GetDefinitionTextAsync() => await SqlMetadataProvider.GetSqlObjectTextAsync(ItemFullName!);
+   protected override async Task<string?> GetDefinitionTextAsync() => await SqlMetadataProvider.GetSqlObjectTextAsync(ItemFullName!);
 
-   protected async override Task<ISqlItem?> GetSqlItemAsync() {
+   protected override async Task<ISqlItem?> GetSqlItemAsync() {
       SP = await SqlMetadataProvider.GetSqlStoredProcedureAsync(DBSchema!, ItemName!);
 
       if (SP is not null && SP.Any()) {

@@ -19,7 +19,7 @@ public class TableTypesModel : DBItemPageModel
    protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
       => await SqlMetadataProvider.GetSqlTypePrevNxtAsync(ItemFullName!, FilterSchema);
 
-   protected async override Task<ISqlItem?> GetSqlItemAsync() {
+   protected override async Task<ISqlItem?> GetSqlItemAsync() {
       TableType = await SqlMetadataProvider.GetSqlTableTypeAsync($"{DBSchema}.{ItemName}");
       return TableType.FirstOrDefault();
    }

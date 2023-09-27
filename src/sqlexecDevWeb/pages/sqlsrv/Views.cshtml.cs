@@ -17,13 +17,13 @@ public class ViewsModel : DBItemPageModel
    protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync()
       => await SqlMetadataProvider.GetSqlObjectsAsync(GroupFlags, DBSchema);
 
-   protected async override Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
+   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
       => await SqlMetadataProvider.GetSqlObjectPrevNxtAsync(ItemFullName ?? "", GroupFlags.GetPageAction(), FilterSchema, FilterGroupFlags);
 
-   protected async override Task<ISqlItem?> GetSqlItemAsync() {
+   protected override async Task<ISqlItem?> GetSqlItemAsync() {
       View = await SqlMetadataProvider.GetSqlViewAsync(DBSchema!, ItemName!);
       return View.FirstOrDefault();
    }
 
-   protected async override Task<string?> GetDefinitionTextAsync() => await SqlMetadataProvider.GetSqlObjectTextAsync(ItemFullName!);
+   protected override async Task<string?> GetDefinitionTextAsync() => await SqlMetadataProvider.GetSqlObjectTextAsync(ItemFullName!);
 }

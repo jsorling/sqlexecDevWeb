@@ -16,13 +16,13 @@ public class TriggersModel : DBItemPageModel
    protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync()
       => await SqlMetadataProvider.GetTriggersAsync(DBSchema);
 
-   protected async override Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
+   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
       => await SqlMetadataProvider.GetTriggerPrevNxtAsync(ItemFullName ?? "", FilterSchema);
 
-   protected async override Task<ISqlItem?> GetSqlItemAsync() {
+   protected override async Task<ISqlItem?> GetSqlItemAsync() {
       Trigger = await SqlMetadataProvider.GetTriggerAsync(DBSchema!, ItemName!);
       return Trigger;
    }
 
-   protected async override Task<string?> GetDefinitionTextAsync() => await Task.FromResult(Trigger?.Definition);
+   protected override async Task<string?> GetDefinitionTextAsync() => await Task.FromResult(Trigger?.Definition);
 }

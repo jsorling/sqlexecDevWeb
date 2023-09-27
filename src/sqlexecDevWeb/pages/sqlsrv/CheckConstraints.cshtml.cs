@@ -20,7 +20,7 @@ public class CheckConstraintsModel : DBItemPageModel
    protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
       => await SqlMetadataProvider.GetSqlCheckConstraintPrevNxtAsync(ItemFullName!, FilterSchema);
 
-   protected async override Task<ISqlItem?> GetSqlItemAsync() {
+   protected override async Task<ISqlItem?> GetSqlItemAsync() {
       CheckConstraintItem = await SqlMetadataProvider.GetSqlCheckConstraintAsync(DBSchema!, ItemName!);
       return CheckConstraintItem;
    }

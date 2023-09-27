@@ -7,7 +7,7 @@
     string? ogroup = ViewContext.RouteData.Values["page"]?.ToString()?.Split("/").Last() ?? "objects";
 }
 
-@if (Model.DBSchemas is not null)
+@* @if (Model.DBSchemas is not null)
 {
     <div class="btn-group flex-wrap">
         @foreach (string sch in Model.DBSchemas)
@@ -22,77 +22,115 @@
             }
         }
     </div>
-}
+} *@
 
-    <div class="btn-group flex-wrap">
+<div class="btn-group flex-wrap">
     @if (ogroup == "tables" || ogroup == "views" || ogroup == "triggers")
     {
-            <a class="btn btn-primary@(ogroup=="tables"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/tables/{Model.DBName}/{Model.DBSchema}")">Tables</a>
-            <a class="btn btn-primary@(ogroup=="views"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/views/{Model.DBName}/{Model.DBSchema}")">Views</a>
-            <a class="btn btn-primary@(ogroup=="triggers"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/triggers/{Model.DBName}/{Model.DBSchema}")">Triggers</a>
-        }
-        else
-        {
-            <a class="btn btn-primary@(ogroup=="tables"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/tables/{Model.DBName}/{Model.DBSchema}")">
-                <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
-                    <img src="/img/table.png" />
-                </span>
-            </a>
-        }
+        <a class="btn btn-primary@(ogroup=="tables"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/tables/{Model.DBName}/{Model.DBSchema}")">Tables</a>
+        <a class="btn btn-primary@(ogroup=="views"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/views/{Model.DBName}/{Model.DBSchema}")">Views</a>
+        <a class="btn btn-primary@(ogroup=="triggers"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/triggers/{Model.DBName}/{Model.DBSchema}")">Triggers</a>
+    }
+    else
+    {
+        <a class="btn btn-primary@(ogroup=="tables"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/tables/{Model.DBName}/{Model.DBSchema}")">
+            <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
+                <img src="/img/table.png" />
+            </span>
+        </a>
+    }
 
-        @if (ogroup == "storedprocedures" || ogroup == "functions")
-        {
+    @if (ogroup == "storedprocedures" || ogroup == "functions")
+    {
 
-            <a class="btn btn-primary@(ogroup=="storedprocedures"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/storedprocedures/{Model.DBName}/{Model.DBSchema}")">Stored procedures</a>
-            <a class="btn btn-primary@(ogroup=="functions"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/functions/{Model.DBName}/{Model.DBSchema}")">Functions</a>
-        }
-        else
-        {
-            <a class="btn btn-primary@(ogroup=="storedprocedures"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/storedprocedures/{Model.DBName}/{Model.DBSchema}")">
-                <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
-                    <img src="/img/sql.png" />
-                </span>
-            </a>
-        }
+        <a class="btn btn-primary@(ogroup=="storedprocedures"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/storedprocedures/{Model.DBName}/{Model.DBSchema}")">Stored procedures</a>
+        <a class="btn btn-primary@(ogroup=="functions"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/functions/{Model.DBName}/{Model.DBSchema}")">Functions</a>
+    }
+    else
+    {
+        <a class="btn btn-primary@(ogroup=="storedprocedures"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/storedprocedures/{Model.DBName}/{Model.DBSchema}")">
+            <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
+                <img src="/img/sql.png" />
+            </span>
+        </a>
+    }
 
-        @if (ogroup == "tabletypes" || ogroup == "types" || ogroup == "defaultconstraints" || ogroup=="checkconstraints")
-        {
-            <a class="btn btn-primary@(ogroup=="types"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/types/{Model.DBName}/{Model.DBSchema}")">Types</a>
-            <a class="btn btn-primary@(ogroup=="defaultconstraints"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/defaultconstraints/{Model.DBName}/{Model.DBSchema}")">Default</a>
-            <a class="btn btn-primary@(ogroup=="checkconstraints"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/checkconstraints/{Model.DBName}/{Model.DBSchema}")">Check</a>
-        }
-        else
-        {
-            <a class="btn btn-primary@(ogroup=="types"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/types/{Model.DBName}/{Model.DBSchema}")">
-                <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
-                    <img src="/img/typesnconstraints.png" />
-                </span>
-            </a>
-        }
+    @if (ogroup == "tabletypes" || ogroup == "types" || ogroup == "defaultconstraints" || ogroup == "checkconstraints")
+    {
+        <a class="btn btn-primary@(ogroup=="types"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/types/{Model.DBName}/{Model.DBSchema}")">Types</a>
+        <a class="btn btn-primary@(ogroup=="defaultconstraints"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/defaultconstraints/{Model.DBName}/{Model.DBSchema}")">Defaults</a>
+        <a class="btn btn-primary@(ogroup=="checkconstraints"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/checkconstraints/{Model.DBName}/{Model.DBSchema}")">Checks</a>
+    }
+    else
+    {
+        <a class="btn btn-primary@(ogroup=="types"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/types/{Model.DBName}/{Model.DBSchema}")">
+            <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
+                <img src="/img/typesnconstraints.png" />
+            </span>
+        </a>
+    }
 
-        @if (ogroup == "principals")
-        {
-            <a class="btn btn-primary@(ogroup=="principals"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/principals/{Model.DBName}/{Model.DBSchema}")">Principals</a>
-        }
-        else
-        {
-            <a class="btn btn-primary@(ogroup=="principals"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/principals/{Model.DBName}/{Model.DBSchema}")">
-                <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
-                    <img src="/img/security.png" />
-                </span>
-            </a>
-        }
+    @if (ogroup == "principals")
+    {
+        <a class="btn btn-primary@(ogroup=="principals"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/principals/{Model.DBName}/{Model.DBSchema}")">Principals</a>
+    }
+    else
+    {
+        <a class="btn btn-primary@(ogroup=="principals"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/principals/{Model.DBName}/{Model.DBSchema}")">
+            <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
+                <img src="/img/security.png" />
+            </span>
+        </a>
+    }
 
-        @if (ogroup == "objects")
-        {
-            <a class="btn btn-primary@(ogroup=="objects"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/objects/{Model.DBName}/{Model.DBSchema}")">Top-level objects</a>
+    @if (ogroup == "objects")
+    {
+        <a class="btn btn-primary@(ogroup=="objects"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/objects/{Model.DBName}/{Model.DBSchema}")">Top-level objects</a>
+    }
+    else
+    {
+        <a class="btn btn-primary@(ogroup=="objects"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/objects/{Model.DBName}/{Model.DBSchema}")">
+            <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
+                <img src="/img/toplevel.png" />
+            </span>
+        </a>
+    }
+
+
+    <a class="btn btn-primary dropdown-toggle flex-grow-0" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+        @(string.IsNullOrWhiteSpace(Model.DBSchema) ? "All schemas" : Model.DBSchema)
+    </a>
+    <div class="dropdown-menu" data-bs-popper="none">
+        @{
+            if (Model.DBSchemas is not null)
+            {
+                var list = Model.DBSchemas.ToList();
+                int i = 0;
+                var hascurrent = false;
+                for (i = 0; i < list.Count() && i < 7; i++)
+                {
+                    var sch = list[i];                    
+                    if (sch == Model.DBSchema)
+                    {
+                        <a class="dropdown-item active" href="@($"{SqlAuth.UriEscapedPath()}/{ogroup}/{Model.DBName}/")">@sch</a>
+                        hascurrent = true;
+                    }
+                    else
+                    {
+                        <a class="dropdown-item" href="@($"{SqlAuth.UriEscapedPath()}/{ogroup}/{Model.DBName}/{sch}")">@sch</a>
+                    }
+                }                
+                <div class="dropdown-divider"></div>
+                if (!hascurrent && !string.IsNullOrWhiteSpace(Model.DBSchema))
+                {
+                    <a class="dropdown-item active" href="@($"{SqlAuth.UriEscapedPath()}/{ogroup}/{Model.DBName}/")">@Model.DBSchema</a>
+                }
+                if (list.Count() >= 7)
+                {
+                    <a class="dropdown-item" href="@($"{SqlAuth.UriEscapedPath()}/schemas/{Model.DBName}/")">More...</a>
+                }
+                <a class="dropdown-item" href="@($"{SqlAuth.UriEscapedPath()}/{ogroup}/{Model.DBName}/")">No filter</a>
+            }
         }
-        else
-        {
-            <a class="btn btn-primary@(ogroup=="objects"?" active ":" ")flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/objects/{Model.DBName}/{Model.DBSchema}")">
-                <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
-                    <img src="/img/toplevel.png" />
-                </span>
-            </a>
-        }
-    </div>    
+    </div>
+</div>

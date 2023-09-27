@@ -13,7 +13,7 @@ public abstract class DBItemPageModel : DBSchemaPageModel
 
    public IEnumerable<ISqlItem>? DBItems { get; private set; }
 
-   protected async virtual Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync()
+   protected virtual async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync()
       => await Task.FromResult<IEnumerable<ISqlItem>?>(null);
 
    //@page "{db}/{schema?}/{obj?}/{filter:int?}/{filterschema?}"
@@ -36,13 +36,13 @@ public abstract class DBItemPageModel : DBSchemaPageModel
 
    public IPrevNxtSqlItem? SqlItemPrevNxt { get; private set; }
 
-   protected async virtual Task<string?> GetDefinitionTextAsync() => await Task.FromResult<string?>(null);
+   protected virtual async Task<string?> GetDefinitionTextAsync() => await Task.FromResult<string?>(null);
 
    public ISqlItem? DBItem { get; private set; }
 
    protected abstract Task<ISqlItem?> GetSqlItemAsync();
 
-   protected async virtual Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
+   protected virtual async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
       => await Task.FromResult<IPrevNxtSqlItem?>(null);
 
    public async Task<IActionResult> OnGetAsync() {
