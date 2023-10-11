@@ -14,16 +14,16 @@ public class CheckConstraintsModel : DBItemPageModel
 
    protected override SqlGroupFlags GroupFlags => SqlGroupFlags.CheckConstraints;
 
-   protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync()
-      => await SqlMetadataProvider.GetCheckContraintsAsync(FilterSchema);
+   protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync(string? schema)
+      => await SqlMetadataProvider.GetCheckContraintsAsync(schema);
 
-   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
-      => await SqlMetadataProvider.GetSqlCheckConstraintPrevNxtAsync(ItemFullName!, FilterSchema);
+   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync(string schema, string name, string? schemaFolder, SqlGroupFlags? filterGroups)
+      => await SqlMetadataProvider.GetSqlCheckConstraintPrevNxtAsync($"{schema}.{name}", schemaFolder);
 
-   protected override async Task<ISqlItem?> GetSqlItemAsync() {
-      CheckConstraintItem = await SqlMetadataProvider.GetSqlCheckConstraintAsync(DBSchema!, ItemName!);
+   protected override async Task<ISqlItem?> GetSqlItemAsync(string schema, string name) {
+      CheckConstraintItem = await SqlMetadataProvider.GetSqlCheckConstraintAsync(schema, name);
       return CheckConstraintItem;
    }
 
-   protected override Task<string?> GetDefinitionTextAsync() => Task.FromResult(CheckConstraintItem?.Definition);
+   protected override Task<string?> GetDefinitionTextAsync(string schema, string name) => Task.FromResult(CheckConstraintItem?.Definition);
 }

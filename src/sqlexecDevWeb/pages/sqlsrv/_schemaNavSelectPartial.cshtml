@@ -2,6 +2,7 @@
 @using Sorling.SqlExecMeta;
 @using Sorling.sqlexecDevWeb.extensions;
 @using Sorling.sqlexecDevWeb.models.pagemodels
+@using Sorling.sqlexecDevWeb;
 @model DBSchemaPageModel
 @{
     string? ogroup = ViewContext.RouteData.Values["page"]?.ToString()?.Split("/").Last() ?? "objects";
@@ -107,7 +108,7 @@
                 var list = Model.DBSchemas.ToList();
                 int i = 0;
                 var hascurrent = false;
-                for (i = 0; i < list.Count() && i < 7; i++)
+                for (i = 0; i < list.Count() && i < GuiConsts.SCHEMAMENUNOITEMS; i++)
                 {
                     var sch = list[i];                    
                     if (sch == Model.DBSchema)
@@ -125,7 +126,7 @@
                 {
                     <a class="dropdown-item active" href="@($"{SqlAuth.UriEscapedPath()}/{ogroup}/{Model.DBName}/")">@Model.DBSchema</a>
                 }
-                if (list.Count() >= 7)
+                if (list.Count() >= GuiConsts.SCHEMAMENUNOITEMS)
                 {
                     <a class="dropdown-item" href="@($"{SqlAuth.UriEscapedPath()}/schemas/{Model.DBName}/")">More...</a>
                 }

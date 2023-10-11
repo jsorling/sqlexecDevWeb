@@ -13,7 +13,7 @@ public abstract class DBItemPageModel : DBSchemaPageModel
 
    public IEnumerable<ISqlItem>? DBItems { get; private set; }
 
-   protected virtual async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync()
+   protected virtual async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync(string? schema)
       => await Task.FromResult<IEnumerable<ISqlItem>?>(null);
 
    //@page "{db}/{schema?}/{obj?}/{filter:int?}/{filterschema?}"
@@ -36,38 +36,38 @@ public abstract class DBItemPageModel : DBSchemaPageModel
 
    public IPrevNxtSqlItem? SqlItemPrevNxt { get; private set; }
 
-   protected virtual async Task<string?> GetDefinitionTextAsync() => await Task.FromResult<string?>(null);
+   protected virtual async Task<string?> GetDefinitionTextAsync(string schema, string name) => await Task.FromResult<string?>(null);
 
    public ISqlItem? DBItem { get; private set; }
 
-   protected abstract Task<ISqlItem?> GetSqlItemAsync();
+   protected abstract Task<ISqlItem?> GetSqlItemAsync(string schema, string name);
 
-   protected virtual async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
+   protected virtual async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync(string schema, string name, string? schemaFolder, SqlGroupFlags? filterGroups)
       => await Task.FromResult<IPrevNxtSqlItem?>(null);
 
    public async Task<IActionResult> OnGetAsync() {
-      if (!string.IsNullOrEmpty(ItemName)) {
-         DBItem = await GetSqlItemAsync();
+      if (!string.IsNullOrEmpty(ObjectItemParts.Name) && !string.IsNullOrEmpty(ObjectItemParts.Schema)) {
+         DBItem = await GetSqlItemAsync(ObjectItemParts.Schema, ObjectItemParts.Name);
          if (DBItem == null)
             return NotFound();
 
          try {
             //DefinitionText = await SqlMetadataProvider.GetSqlObjectTextAsync(ItemFullName!);
-            DefinitionText = await GetDefinitionTextAsync();
+            DefinitionText = await GetDefinitionTextAsync(ObjectItemParts.Schema, ObjectItemParts.Name);
          }
          catch (Exception ex) {
 
             DefinitionTextException = ex;
          }
 
-         SqlItemPrevNxt = await GetPrevNxtSqlItemAsync();
+         SqlItemPrevNxt = await GetPrevNxtSqlItemAsync(ObjectItemParts.Schema, ObjectItemParts.Name, SchemaFolder, FilterGroup);
 
          return Page();
       }
       else {
          FilterInt = (int)GroupFlags;
-         FilterSchema = DBSchema;
-         DBItems = await GetSqlListItemsAsync();
+         FilterSchema = SchemaFolder;
+         DBItems = await GetSqlListItemsAsync(SchemaFolder);
          return DBItems is null ? NotFound() : Page();
       }
    }

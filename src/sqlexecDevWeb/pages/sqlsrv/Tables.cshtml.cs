@@ -14,14 +14,15 @@ public class TablesModel : DBItemPageModel
 
    protected override SqlGroupFlags GroupFlags => SqlGroupFlags.Tables;
 
-   protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync()
-      => await SqlMetadataProvider.GetSqlObjectsAsync(GroupFlags, DBSchema);
+   protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync(string? schema)
+      => await SqlMetadataProvider.GetSqlObjectsAsync(GroupFlags, schema);
 
-   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
-      => await SqlMetadataProvider.GetSqlObjectPrevNxtAsync(ItemFullName ?? "", GroupFlags.GetPageAction(), FilterSchema, FilterGroupFlags);
+   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync(string schema, string name, string? schemaFolder, SqlGroupFlags? filterGroups)
+      => await SqlMetadataProvider.GetSqlObjectPrevNxtAsync($"{schema}.{name}", GroupFlags.GetPageAction(), schemaFolder
+         , filterGroups ?? SqlGroupFlags.Objects);
 
-   protected override async Task<ISqlItem?> GetSqlItemAsync() {
-      Table = await SqlMetadataProvider.GetSqlTableAsync(DBSchema!, ItemName!);
+   protected override async Task<ISqlItem?> GetSqlItemAsync(string schema, string name) {
+      Table = await SqlMetadataProvider.GetSqlTableAsync(schema, name);
       return Table.FirstOrDefault();
    }
 }

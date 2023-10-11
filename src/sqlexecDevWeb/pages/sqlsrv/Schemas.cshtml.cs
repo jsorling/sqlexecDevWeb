@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Sorling.SqlConnAuthWeb.authentication;
 using Sorling.sqlexecDevWeb.models.pagemodels;
 

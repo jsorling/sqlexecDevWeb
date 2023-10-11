@@ -17,23 +17,25 @@ public class StoredProceduresModel : DBItemPageModel
 
    public StoredProceduresModel(ISqlConnAuthenticationService sqlAuth) : base(sqlAuth) { }
 
-   protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync()
-      => await SqlMetadataProvider.GetSqlObjectsAsync(GroupFlags, DBSchema);
+   protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync(string? schema)
+      => await SqlMetadataProvider.GetSqlObjectsAsync(GroupFlags, schema);
 
    public Exception? ResultSetError { get; private set; }
 
-   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
-      => await SqlMetadataProvider.GetSqlObjectPrevNxtAsync(ItemFullName ?? "", GroupFlags.GetPageAction(), FilterSchema, FilterGroupFlags);
+   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync(string schema, string name, string? schemaFolder, SqlGroupFlags? filterGroups)
+      => await SqlMetadataProvider.GetSqlObjectPrevNxtAsync($"{schema}.{name}", GroupFlags.GetPageAction(), schemaFolder
+         , filterGroups ?? SqlGroupFlags.Objects);
 
-   protected override async Task<string?> GetDefinitionTextAsync() => await SqlMetadataProvider.GetSqlObjectTextAsync(ItemFullName!);
+   protected override async Task<string?> GetDefinitionTextAsync(string schema, string name)
+      => await SqlMetadataProvider.GetSqlObjectTextAsync($"{schema}.{name}");
 
-   protected override async Task<ISqlItem?> GetSqlItemAsync() {
-      SP = await SqlMetadataProvider.GetSqlStoredProcedureAsync(DBSchema!, ItemName!);
+   protected override async Task<ISqlItem?> GetSqlItemAsync(string schema, string name) {
+      SP = await SqlMetadataProvider.GetSqlStoredProcedureAsync(schema, name);
 
       if (SP is not null && SP.Any()) {
          try {
             ResultSets = (await new SqlResultSets(_sqlAuth.SqlConnectionString(DBName))
-               .GetSPResultSetsAsync($"{DBSchema}.{ItemName}", SP)).ResultSets;
+               .GetSPResultSetsAsync($"{schema}.{name}", SP)).ResultSets;
          }
          catch (Exception ex) {
             ResultSetError = ex;

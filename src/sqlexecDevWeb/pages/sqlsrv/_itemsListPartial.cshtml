@@ -4,6 +4,7 @@
 @model DBItemPageModel
 @{
     string? ogroup = ViewContext.RouteData.Values["page"]?.ToString()?.Split("/").Last() ?? "objects";
+    RouteValueDictionary routeValues = new(Model.RouteData.Values);
 }
 @if (Model.DBItems is not null)
 {
@@ -11,10 +12,10 @@
         <tr><th>Schema</th><th>Name</th><th>Type</th></tr>
         @foreach (var item in Model.DBItems)
         {
-
             <tr>
-                <td><a href="@($"{SqlAuth.UriEscapedPath()}/{ogroup}/{item.DBName}/{item.SchemaName}")">@item.SchemaName</a></td>
-                <td><a href="@($"{SqlAuth.UriEscapedPath()}/{item.GroupFlag.GetPageAction()}/{item.DBName}/{item.SchemaName}/{item.Name}/{Model.FilterInt ?? (int)SqlGroupFlags.Objects}/{Model.FilterSchema??""}")"> @item.Name</a></td>
+                <td><a href="@Model.PageUrl(null, item.SchemaName, null, null)">@item.SchemaName</a></td>
+                @* <td><a href="@($"{SqlAuth.UriEscapedPath()}/{item.GroupFlag.GetPageAction()}/{item.DBName}/{item.SchemaName}/{item.Name}/{Model.FilterInt ?? (int)SqlGroupFlags.Objects}/{Model.FilterSchema??""}")"> @item.Name</a></td> *@
+                <td><a href="@Model.PageUrl(item)">@item.Name</a></td>
                 <td>@item.GroupFlag.GetGroupItemName()</td>
             </tr>
         }

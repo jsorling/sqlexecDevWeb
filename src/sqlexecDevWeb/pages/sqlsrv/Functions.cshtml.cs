@@ -14,16 +14,18 @@ public class FunctionsModel : DBItemPageModel
 
    protected override SqlGroupFlags GroupFlags => SqlGroupFlags.Functions;
 
-   protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync()
-      => await SqlMetadataProvider.GetSqlObjectsAsync(GroupFlags, DBSchema);
+   protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync(string? schema)
+      => await SqlMetadataProvider.GetSqlObjectsAsync(GroupFlags, schema);
 
-   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
-      => await SqlMetadataProvider.GetSqlObjectPrevNxtAsync(ItemFullName ?? "", GroupFlags.GetPageAction(), FilterSchema, FilterGroupFlags);
+   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync(string schema, string name, string? schemaFolder, SqlGroupFlags? filterGroups)
+      => await SqlMetadataProvider.GetSqlObjectPrevNxtAsync($"{schema}.{name}", GroupFlags.GetPageAction(), schemaFolder
+         , filterGroups ?? SqlGroupFlags.Objects);
 
-   protected override async Task<ISqlItem?> GetSqlItemAsync() {
-      Function = await SqlMetadataProvider.GetSqlFunctionAsync(DBSchema!, ItemName!);
+   protected override async Task<ISqlItem?> GetSqlItemAsync(string schema, string name) {
+      Function = await SqlMetadataProvider.GetSqlFunctionAsync(schema, name);
       return Function.FirstOrDefault();
    }
 
-   protected override async Task<string?> GetDefinitionTextAsync() => await SqlMetadataProvider.GetSqlObjectTextAsync(ItemFullName!);
+   protected override async Task<string?> GetDefinitionTextAsync(string schema, string name)
+      => await SqlMetadataProvider.GetSqlObjectTextAsync($"{schema}.{name}");
 }

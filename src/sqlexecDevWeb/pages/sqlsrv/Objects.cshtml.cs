@@ -14,11 +14,12 @@ public class ObjectsModel : DBItemPageModel
 
    protected override SqlGroupFlags GroupFlags => SqlGroupFlags.Objects;
 
-   protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync()
-      => await SqlMetadataProvider.GetSqlObjectsAsync(GroupFlags, DBSchema);
+   protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync(string? schema)
+      => await SqlMetadataProvider.GetSqlObjectsAsync(GroupFlags, schema);
 
-   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
-      => await SqlMetadataProvider.GetSqlObjectPrevNxtAsync(ItemFullName ?? "", GroupFlags.GetPageAction(), FilterSchema, FilterGroupFlags);
+   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync(string schema, string name, string? schemaFolder, SqlGroupFlags? filterGroups)
+      => await SqlMetadataProvider.GetSqlObjectPrevNxtAsync($"{schema}.{name}", GroupFlags.GetPageAction(), schemaFolder
+         , filterGroups ?? SqlGroupFlags.Objects);
 
-   protected override async Task<ISqlItem?> GetSqlItemAsync() => await Task.FromResult<ISqlItem?>(null);
+   protected override async Task<ISqlItem?> GetSqlItemAsync(string schema, string name) => await Task.FromResult<ISqlItem?>(null);
 }

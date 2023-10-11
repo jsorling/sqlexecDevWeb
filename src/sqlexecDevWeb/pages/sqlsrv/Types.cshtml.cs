@@ -12,18 +12,18 @@ public class TypesModel : DBItemPageModel
 
    public IEnumerable<SqlTypeListItem>? TypeItems { get; private set; }
 
-   protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync()
-      => await SqlMetadataProvider.GetSqlTypesAsync(FilterSchema);
+   protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync(string? schema)
+      => await SqlMetadataProvider.GetSqlTypesAsync(schema);
 
    protected override SqlGroupFlags GroupFlags => SqlGroupFlags.Types;
 
    public SqlTypeListItem? TypeItem { get; private set; }
 
-   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync()
-      => await SqlMetadataProvider.GetSqlTypePrevNxtAsync(ItemFullName!, FilterSchema);
+   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync(string schema, string name, string? schemaFolder, SqlGroupFlags? filterGroups)
+      => await SqlMetadataProvider.GetSqlTypePrevNxtAsync($"{schema}.{name}", schemaFolder);
 
-   protected override async Task<ISqlItem?> GetSqlItemAsync() {
-      TypeItem = await SqlMetadataProvider.GetSqlTypeAsync(DBSchema!, ItemName!);
+   protected override async Task<ISqlItem?> GetSqlItemAsync(string schema, string name) {
+      TypeItem = await SqlMetadataProvider.GetSqlTypeAsync(schema, name);
       return TypeItem;
    }
 }
