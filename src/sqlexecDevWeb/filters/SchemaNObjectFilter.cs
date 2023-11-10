@@ -26,27 +26,27 @@ public class SchemaNObjectFilter : IAsyncPageFilter
 
       if (parschema.Contains('.')) {
          // first (parschema) is object
-         context.RouteData.Values[RouteDataKeysConsts.REQOBJECT] = parschema;
-         if (int.TryParse(parobj, out int f)) {
+         context.RouteData.Values[RouteDataKeysConsts.REQSQLOBJECTKEY] = parschema;
+         if (long.TryParse(parobj, out long f)) {
             // second (parobj) is filter
-            context.RouteData.Values[RouteDataKeysConsts.REQFILTER] = (SqlGroupFlags)f;
+            context.RouteData.Values[RouteDataKeysConsts.REQSQLFILTERKEY] = (SqlGroupFlags)f;
          }
       }
       else if (parschema != string.Empty) {
          // first (parschema) is schema
-         context.RouteData.Values[RouteDataKeysConsts.REQSCHEMA] = parschema;
+         context.RouteData.Values[RouteDataKeysConsts.REQSQLSCHEMAKEY] = parschema;
          string parfilter = context.RouteData.Values[_rd3]?.ToString() ?? string.Empty;
          if (parobj.Contains('.')) {
             // second (parobject) is object
-            context.RouteData.Values[RouteDataKeysConsts.REQOBJECT] = parobj;
-            if (int.TryParse(parfilter, out int f)) {
+            context.RouteData.Values[RouteDataKeysConsts.REQSQLOBJECTKEY] = parobj;
+            if (long.TryParse(parfilter, out long f)) {
                // third (parfilter) is filter
-               context.RouteData.Values[RouteDataKeysConsts.REQFILTER] = (SqlGroupFlags)f;
+               context.RouteData.Values[RouteDataKeysConsts.REQSQLFILTERKEY] = (SqlGroupFlags)f;
             }
          }
-         else if (int.TryParse(parobj, out int f)) {
+         else if (long.TryParse(parobj, out long f)) {
             // second (parobj) is filter
-            context.RouteData.Values[RouteDataKeysConsts.REQFILTER] = (SqlGroupFlags)f;
+            context.RouteData.Values[RouteDataKeysConsts.REQSQLFILTERKEY] = (SqlGroupFlags)f;
          }
       }
 

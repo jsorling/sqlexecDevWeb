@@ -17,8 +17,8 @@ public abstract class DBItemPageModel : DBSchemaPageModel
       => await Task.FromResult<IEnumerable<ISqlItem>?>(null);
 
    //@page "{db}/{schema?}/{obj?}/{filter:int?}/{filterschema?}"
-   [BindProperty(Name = "obj", SupportsGet = true)]
-   public string? ItemName { get; set; }
+   //[BindProperty(Name = "obj", SupportsGet = true)]
+   //public string? ItemName { get; set; }
 
    [BindProperty(Name = "filter", SupportsGet = true)]
    public int? FilterInt { get; set; }
@@ -32,8 +32,6 @@ public abstract class DBItemPageModel : DBSchemaPageModel
 
    public Exception? DefinitionTextException { get; private set; }
 
-   public string? ItemFullName => $"{DBSchema}.{ItemName}";
-
    public IPrevNxtSqlItem? SqlItemPrevNxt { get; private set; }
 
    protected virtual async Task<string?> GetDefinitionTextAsync(string schema, string name) => await Task.FromResult<string?>(null);
@@ -46,21 +44,21 @@ public abstract class DBItemPageModel : DBSchemaPageModel
       => await Task.FromResult<IPrevNxtSqlItem?>(null);
 
    public async Task<IActionResult> OnGetAsync() {
-      if (!string.IsNullOrEmpty(ObjectItemParts.Name) && !string.IsNullOrEmpty(ObjectItemParts.Schema)) {
-         DBItem = await GetSqlItemAsync(ObjectItemParts.Schema, ObjectItemParts.Name);
+      if (ObejctItemParts is (string, string) parts) {
+         DBItem = await GetSqlItemAsync(parts.schema, parts.name);
          if (DBItem == null)
             return NotFound();
 
          try {
             //DefinitionText = await SqlMetadataProvider.GetSqlObjectTextAsync(ItemFullName!);
-            DefinitionText = await GetDefinitionTextAsync(ObjectItemParts.Schema, ObjectItemParts.Name);
+            DefinitionText = await GetDefinitionTextAsync(parts.schema, parts.name);
          }
          catch (Exception ex) {
 
             DefinitionTextException = ex;
          }
 
-         SqlItemPrevNxt = await GetPrevNxtSqlItemAsync(ObjectItemParts.Schema, ObjectItemParts.Name, SchemaFolder, FilterGroup);
+         SqlItemPrevNxt = await GetPrevNxtSqlItemAsync(parts.schema, parts.name, SchemaFolder, FilterGroup);
 
          return Page();
       }

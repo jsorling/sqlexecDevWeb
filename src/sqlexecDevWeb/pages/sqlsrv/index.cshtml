@@ -1,9 +1,11 @@
 ﻿@page
+@using Sorling.SqlExecMeta;
 @using Sorling.sqlexecDevWeb.pages.sqlsrv;
 @model IndexModel
+
 <table>
     @foreach (var db in Model.DBs!)
     {
-       <tr><td><a href="@($"{SqlAuth.UriEscapedPath()}/objects/{db.Name}")">@db.Name</a></td></tr>
+        <tr><td><a sed-db="@db.Name" sed-page="SqlGroupFlags.Objects">@db.Name</a></td></tr>
     }
 </table>

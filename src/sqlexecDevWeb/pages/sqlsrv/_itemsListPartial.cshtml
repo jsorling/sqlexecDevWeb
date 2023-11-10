@@ -13,9 +13,9 @@
         @foreach (var item in Model.DBItems)
         {
             <tr>
-                <td><a href="@Model.PageUrl(null, item.SchemaName, null, null)">@item.SchemaName</a></td>
+                <td><a sed-schema="@item.SchemaName">@item.SchemaName</a></td>
                 @* <td><a href="@($"{SqlAuth.UriEscapedPath()}/{item.GroupFlag.GetPageAction()}/{item.DBName}/{item.SchemaName}/{item.Name}/{Model.FilterInt ?? (int)SqlGroupFlags.Objects}/{Model.FilterSchema??""}")"> @item.Name</a></td> *@
-                <td><a href="@Model.PageUrl(item)">@item.Name</a></td>
+                <td><a sed-sqlitem="item" sed-filter-current-page="true">@item.Name</a></td>
                 <td>@item.GroupFlag.GetGroupItemName()</td>
             </tr>
         }

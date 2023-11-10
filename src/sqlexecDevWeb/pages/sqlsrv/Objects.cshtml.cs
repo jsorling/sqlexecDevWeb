@@ -18,7 +18,7 @@ public class ObjectsModel : DBItemPageModel
       => await SqlMetadataProvider.GetSqlObjectsAsync(GroupFlags, schema);
 
    protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync(string schema, string name, string? schemaFolder, SqlGroupFlags? filterGroups)
-      => await SqlMetadataProvider.GetSqlObjectPrevNxtAsync($"{schema}.{name}", GroupFlags.GetPageAction(), schemaFolder
+      => await SqlMetadataProvider.GetSqlObjectPrevNxtAsync($"{schema}.{name}", GroupFlags, schemaFolder
          , filterGroups ?? SqlGroupFlags.Objects);
 
    protected override async Task<ISqlItem?> GetSqlItemAsync(string schema, string name) => await Task.FromResult<ISqlItem?>(null);

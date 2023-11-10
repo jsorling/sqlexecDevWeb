@@ -2,9 +2,15 @@
 
 public class RouteDataKeysConsts
 {
-   public const string REQSCHEMA = "schemanobjectschema";
+   public const string REQSQLSCHEMAKEY = "schemanobjectsqlschemakey";
 
-   public const string REQOBJECT = "schemanobjectobject";
+   public const string REQSQLOBJECTKEY = "schemanobjectsqlobjectkey";
 
-   public const string REQFILTER = "schemanobjectfilter";
+   public const string REQSQLFILTERKEY = "schemanobjectsqlfilterkey";
+
+   public const string URLROUTEPARAMDB = "db";
+
+   public const string URLROUTEPARAMPROJECT = "prj";
+
+   public const string DEFAULTEMPTYPROJECT = "noproject";
 }
