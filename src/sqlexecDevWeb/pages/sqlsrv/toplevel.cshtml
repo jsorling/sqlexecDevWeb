@@ -1,0 +1,6 @@
+﻿@page "{db}/{prj}/{schema?}/{obj?}/{filter:long?}/{filterschema?}"
+@model Sorling.sqlexecDevWeb.pages.sqlsrv.TopLevelModel
+@{
+}
+<partial name="_schemaNavSelectPartial" for="@Model" />
+<partial name="_itemsListPartial" for="@Model" />

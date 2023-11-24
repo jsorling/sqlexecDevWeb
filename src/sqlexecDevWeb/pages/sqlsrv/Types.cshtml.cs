@@ -5,11 +5,8 @@ using Sorling.SqlExecMeta.types;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class TypesModel : DBItemPageModel
+public class TypesModel(ISqlConnAuthenticationService sqlAuth) : DBItemPageModel(sqlAuth)
 {
-   public TypesModel(ISqlConnAuthenticationService sqlAuth) : base(sqlAuth) {
-   }
-
    public IEnumerable<SqlTypeListItem>? TypeItems { get; private set; }
 
    protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync(string? schema)

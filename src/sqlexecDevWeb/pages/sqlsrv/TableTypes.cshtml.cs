@@ -5,10 +5,8 @@ using Sorling.SqlExecMeta.objects.tabletypes;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class TableTypesModel : DBItemPageModel
+public class TableTypesModel(ISqlConnAuthenticationService sqlAuth) : DBItemPageModel(sqlAuth)
 {
-   public TableTypesModel(ISqlConnAuthenticationService sqlAuth) : base(sqlAuth) { }
-
    public IEnumerable<SqlTableTypeDefCmd.Result>? TableType { get; private set; }
 
    protected override SqlGroupFlags GroupFlags => SqlGroupFlags.TableTypes;

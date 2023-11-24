@@ -6,91 +6,75 @@
 @model DBSchemaPageModel
 @{
     string? ogroup = ViewContext.RouteData.Values["page"]?.ToString()?.Split("/").Last() ?? "objects";
+    SqlGroupFlags pageFlags = Model.PageGroupFlags ?? SqlGroupFlags.TopLevel;
 }
 
-@* @if (Model.DBSchemas is not null)
-{
-    <div class="btn-group flex-wrap">
-        @foreach (string sch in Model.DBSchemas)
-        {
-            @if (sch == Model.DBSchema)
-            {
-                <a class="btn btn-secondary active flex-grow-0" aria-current="page" href="@($"{SqlAuth.UriEscapedPath()}/{ogroup}/{Model.DBName}/")">@sch</a>
-            }
-            else
-            {
-                <a class="btn btn-secondary flex-grow-0" href="@($"{SqlAuth.UriEscapedPath()}/{ogroup}/{Model.DBName}/{sch}")">@sch</a>
-            }
-        }
-    </div>
-} *@
-
 <div class="btn-group flex-wrap">
-    @if (ogroup == "tables" || ogroup == "views" || ogroup == "triggers")
+    @if (pageFlags.In(SqlGroupFlags.Tables, SqlGroupFlags.Views, SqlGroupFlags.Triggers))
     {
-        <a class="btn btn-primary@(ogroup=="tables"?" active ":" ")flex-grow-0" sed-page="SqlGroupFlags.Tables">Tables</a>
-        <a class="btn btn-primary@(ogroup=="views"?" active ":" ")flex-grow-0" sed-page="SqlGroupFlags.Views">Views</a>
-        <a class="btn btn-primary@(ogroup=="triggers"?" active ":" ")flex-grow-0" sed-page="SqlGroupFlags.Triggers">Triggers</a>
+        <a class="btn btn-primary flex-grow-0" sed-class-page-active="active" sed-page="SqlGroupFlags.Tables">Tables</a>
+        <a class="btn btn-primary flex-grow-0" sed-class-page-active="active" sed-page="SqlGroupFlags.Views">Views</a>
+        <a class="btn btn-primary flex-grow-0" sed-class-page-active="active" sed-page="SqlGroupFlags.Triggers">Triggers</a>
     }
     else
     {
-        <a class="btn btn-primary@(ogroup=="tables"?" active ":" ")flex-grow-0" sed-page="SqlGroupFlags.Tables">
+        <a class="btn btn-primary flex-grow-0" sed-page="SqlGroupFlags.Tables">
             <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
                 <img src="/img/table.png" />
             </span>
         </a>
     }
 
-    @if (ogroup == "storedprocedures" || ogroup == "functions")
+    @if (pageFlags.In(SqlGroupFlags.StoredProcedures, SqlGroupFlags.Functions))
     {
 
-        <a class="btn btn-primary@(ogroup=="storedprocedures"?" active ":" ")flex-grow-0" sed-page="SqlGroupFlags.StoredProcedures">Stored procedures</a>
-        <a class="btn btn-primary@(ogroup=="functions"?" active ":" ")flex-grow-0" sed-page="SqlGroupFlags.Functions">Functions</a>
+        <a class="btn btn-primary flex-grow-0" sed-class-page-active="active" sed-page="SqlGroupFlags.StoredProcedures">Stored procedures</a>
+        <a class="btn btn-primary flex-grow-0" sed-class-page-active="active" sed-page="SqlGroupFlags.Functions">Functions</a>
     }
     else
     {
-        <a class="btn btn-primary@(ogroup=="storedprocedures"?" active ":" ")flex-grow-0" sed-page="SqlGroupFlags.StoredProcedures">
+        <a class="btn btn-primary flex-grow-0" sed-page="SqlGroupFlags.StoredProcedures">
             <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
                 <img src="/img/sql.png" />
             </span>
         </a>
     }
 
-    @if (ogroup == "tabletypes" || ogroup == "types" || ogroup == "defaultconstraints" || ogroup == "checkconstraints")
+    @if (pageFlags.In(SqlGroupFlags.TableTypes, SqlGroupFlags.Types, SqlGroupFlags.DefaultConstraints, SqlGroupFlags.CheckConstraints))
     {
-        <a class="btn btn-primary@(ogroup=="types"?" active ":" ")flex-grow-0" sed-page="SqlGroupFlags.Types">Types</a>
-        <a class="btn btn-primary@(ogroup=="defaultconstraints"?" active ":" ")flex-grow-0" sed-page="SqlGroupFlags.DefaultConstraints">Defaults</a>
-        <a class="btn btn-primary@(ogroup=="checkconstraints"?" active ":" ")flex-grow-0" sed-page="SqlGroupFlags.CheckConstraints">Checks</a>
+        <a class="btn btn-primary flex-grow-0" sed-class-page-active="active" sed-page="SqlGroupFlags.Types">Types</a>
+        <a class="btn btn-primary flex-grow-0" sed-class-page-active="active" sed-page="SqlGroupFlags.DefaultConstraints">Defaults</a>
+        <a class="btn btn-primary flex-grow-0" sed-class-page-active="active" sed-page="SqlGroupFlags.CheckConstraints">Checks</a>
     }
     else
     {
-        <a class="btn btn-primary@(ogroup=="types"?" active ":" ")flex-grow-0" sed-page="SqlGroupFlags.Types">
+        <a class="btn btn-primary flex-grow-0" sed-page="SqlGroupFlags.Types">
             <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
                 <img src="/img/typesnconstraints.png" />
             </span>
         </a>
     }
 
-    @if (ogroup == "principals")
+    @if (pageFlags.In(SqlGroupFlags.Principals))
     {
-        <a class="btn btn-primary@(ogroup=="principals"?" active ":" ")flex-grow-0" sed-page="SqlGroupFlags.Principals">Principals</a>
+        <a class="btn btn-primary flex-grow-0" sed-class-page-active="active" sed-page="SqlGroupFlags.Principals">Principals</a>
     }
     else
     {
-        <a class="btn btn-primary@(ogroup=="principals"?" active ":" ")flex-grow-0" sed-page="SqlGroupFlags.Principals">
+        <a class="btn btn-primary flex-grow-0" sed-page="SqlGroupFlags.Principals">
             <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
                 <img src="/img/security.png" />
             </span>
         </a>
     }
 
-    @if (ogroup == "objects")
+    @if (pageFlags.In(SqlGroupFlags.Objects, SqlGroupFlags.TopLevel))
     {
-        <a class="btn btn-primary@(ogroup=="objects"?" active ":" ")flex-grow-0" sed-page="SqlGroupFlags.Objects">Top-level objects</a>
+        <a class="btn btn-primary flex-grow-0" sed-class-page-active="active" sed-page="SqlGroupFlags.TopLevel">Top-level objects</a>
     }
     else
     {
-        <a class="btn btn-primary@(ogroup=="objects"?" active ":" ")flex-grow-0" sed-page="SqlGroupFlags.Objects">
+        <a class="btn btn-primary flex-grow-0" sed-page="SqlGroupFlags.TopLevel">
             <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
                 <img src="/img/toplevel.png" />
             </span>

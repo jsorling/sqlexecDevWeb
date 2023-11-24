@@ -20,7 +20,8 @@ namespace Sorling.sqlexecDevWeb.taghelpers;
 [HtmlTargetElement("a", Attributes = _filterKeepAttributeName)]
 [HtmlTargetElement("a", Attributes = _prvItemAttributeName)]
 [HtmlTargetElement("a", Attributes = _nxtItemAttributeName)]
-public class DbLinkTagHelper : TagHelper
+[HtmlTargetElement("a", Attributes = _pageClassActiveAttributeName)]
+public class DbLinkTagHelper(IHtmlGenerator htmlGenerator) : TagHelper
 {
    private const string _schemaAttributeName = "sed-schema";
 
@@ -40,6 +41,8 @@ public class DbLinkTagHelper : TagHelper
 
    private const string _nxtItemAttributeName = "sed-nxt-item";
 
+   private const string _pageClassActiveAttributeName = "sed-class-page-active";
+
    [HtmlAttributeName(_schemaAttributeName)]
    public string? Schema { get; set; }
 
@@ -54,6 +57,9 @@ public class DbLinkTagHelper : TagHelper
 
    [HtmlAttributeName(_pageAttributeName)]
    public SqlGroupFlags? Page { get; set; }
+
+   [HtmlAttributeName(_pageClassActiveAttributeName)]
+   public string? PageClassActive { get; set; }
 
    [HtmlAttributeName(_filterCurrentAttributeName)]
    public bool FilterCurrentPage { get; set; } = false;
@@ -71,10 +77,6 @@ public class DbLinkTagHelper : TagHelper
    [ViewContext]
    public ViewContext? ViewContext { get; set; }
 
-   protected IHtmlGenerator HtmlGenerator { get; }
-
-   public DbLinkTagHelper(IHtmlGenerator generator) => HtmlGenerator = generator;
-
    public override void Process(TagHelperContext context, TagHelperOutput output) {
       ArgumentNullException.ThrowIfNull(context);
       ArgumentNullException.ThrowIfNull(output);
@@ -82,7 +84,7 @@ public class DbLinkTagHelper : TagHelper
 
       if ((PrvItem is not null && SqlItem is not null) || (NxtItem is not null && SqlItem is not null)) {
          throw new InvalidOperationException(
-            $"{_prvItemAttributeName} or {_nxtItemAttributeName} and {_objectAttributeName} can not be set in <a>-tag");
+            $"{_prvItemAttributeName} or {_nxtItemAttributeName} and {_objectAttributeName} can not be set at the same time in an <a>-tag");
       }
 
       if (PrvItem is not null && NxtItem is not null) {
@@ -100,10 +102,6 @@ public class DbLinkTagHelper : TagHelper
          { SqlConnAuthConsts.URLROUTEPARAMSRV, ViewContext.RouteData.Values[SqlConnAuthConsts.URLROUTEPARAMSRV] },
          { SqlConnAuthConsts.URLROUTEPARAMUSR, ViewContext.RouteData.Values[SqlConnAuthConsts.URLROUTEPARAMUSR] },
          { RouteDataKeysConsts.URLROUTEPARAMDB, db }, { RouteDataKeysConsts.URLROUTEPARAMPROJECT, prj } };
-
-      if (prj == "debug") {
-         Console.WriteLine(prj);
-      }
 
       string? outschema = Schema == "" ? null
          : Schema is not null
@@ -143,10 +141,10 @@ public class DbLinkTagHelper : TagHelper
          pg = NxtItem.NextGroup.Value.GetPageAction();
       }
 
-      if(!string.IsNullOrEmpty(outschema)) {
+      if (!string.IsNullOrEmpty(outschema)) {
          routevalues.Add("schema", outschema);
          routevalues.Add("obj", outobject);
-         if(outfilter != null) {
+         if (outfilter != null) {
             routevalues.Add("filter", outfilter);
          }
       }
@@ -157,7 +155,13 @@ public class DbLinkTagHelper : TagHelper
          }
       }
 
-      TagBuilder tagbuilder = HtmlGenerator.GeneratePageLink(
+      Dictionary<string, object>? htmlattributes = null;
+
+      if (!string.IsNullOrEmpty(PageClassActive) && ViewContext.CurrentPageSqlGroup() == Page) {
+         htmlattributes = new Dictionary<string, object>() { { "class", PageClassActive } };
+      };
+
+      TagBuilder tagbuilder = htmlGenerator.GeneratePageLink(
          ViewContext,
          linkText: string.Empty,
          pageName: pg,
@@ -166,7 +170,7 @@ public class DbLinkTagHelper : TagHelper
          hostname: null,
          fragment: null,
          routeValues: routevalues,
-         htmlAttributes: null);
+         htmlAttributes: htmlattributes);
 
       output.MergeAttributes(tagbuilder);
    }

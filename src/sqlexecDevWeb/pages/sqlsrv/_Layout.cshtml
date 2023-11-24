@@ -1,4 +1,5 @@
-﻿@using Sorling.sqlexecDevWeb.pages.shared.components;
+﻿@using Sorling.SqlExecMeta;
+@using Sorling.sqlexecDevWeb.pages.sqlsrv.components;
 @{
     string? schema = ViewContext.RouteData.Values["schema"]?.ToString()?.Split("/").Last();
 }
@@ -24,8 +25,8 @@
             <a class="nav-link text-light" href="@($"{SqlAuth.UriEscapedPath()}")">@(SqlAuth.SqlConnAuthenticationData.SqlServer)/@SqlAuth.SqlConnAuthenticationData.UserName</a>
             @if (ViewContext.RouteData.Values["db"] is string db)
             {
-                <a class="nav-link text-light" href="@($"{SqlAuth.UriEscapedPath()}/objects/{db}/{schema}")">Database:@(db)</a>
-                <a class="nav-link text-light" href="@($"{SqlAuth.UriEscapedPath()}/script/{db}/{schema}")">Script</a>
+                <a class="nav-link text-light" sed-page="SqlGroupFlags.TopLevel">Database:@(db)</a>
+                <a class="nav-link text-light" sed-page="SqlGroupFlags.Scripts">Script</a>
                 <a class="nav-link text-light" href="#">Project</a>
             }
             <partial name="_themeButton" />
@@ -33,6 +34,7 @@
     </nav>
     
     @await Component.InvokeAsync("TopNav")
+    
     <div class="container">
         @RenderBody()
     </div>

@@ -10,7 +10,7 @@
             @*<div asp-validation-summary="All" class="text-danger"></div>*@
             <div class="form-group">
                 <label asp-for="Input!.SqlServer"></label>
-                <input asp-for="Input!.SqlServer" class="form-control">
+                <input asp-for="Input!.SqlServer" class="form-control" autofocus>
                 <span asp-validation-for="Input!.SqlServer" class="text-danger"></span>
             </div>
             @if (Model.SqlConnAuthenticationOptions.AllowWinauth)
@@ -23,7 +23,7 @@
                 <label asp-for="Input!.UserName"></label>
                 <input asp-for="Input!.UserName" class="form-control">
                 <span asp-validation-for="Input!.UserName" class="text-danger"></span>
-            </div>            
+            </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Connect</button>
             </div>

@@ -7,15 +7,13 @@ using Sorling.SqlExecMeta.objects.storedprocedures;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class StoredProceduresModel : DBItemPageModel
+public class StoredProceduresModel(ISqlConnAuthenticationService sqlAuth) : DBItemPageModel(sqlAuth)
 {
    public IEnumerable<SqlStoredProcedureDefCmd.Result>? SP { get; private set; }
 
    public Dictionary<int, IEnumerable<SqlResultSetColumn>>? ResultSets { get; private set; }
 
    protected override SqlGroupFlags GroupFlags => SqlGroupFlags.StoredProcedures;
-
-   public StoredProceduresModel(ISqlConnAuthenticationService sqlAuth) : base(sqlAuth) { }
 
    protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync(string? schema)
       => await SqlMetadataProvider.GetSqlObjectsAsync(GroupFlags, schema);

@@ -5,11 +5,8 @@ using Sorling.SqlExecMeta.security;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class PrincipalsModel : DBSchemaPageModel
+public class PrincipalsModel(ISqlConnAuthenticationService sqlAuth) : DBSchemaPageModel(sqlAuth)
 {
-   public PrincipalsModel(ISqlConnAuthenticationService sqlAuth) : base(sqlAuth) {
-   }
-
    public IEnumerable<SqlPrincipalListItem>? Principals { get; private set; }
 
    public async Task<IActionResult> OnGetAsync() {

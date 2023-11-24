@@ -6,11 +6,9 @@ using Sorling.SqlExecMeta.objects.functions;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class FunctionsModel : DBItemPageModel
+public class FunctionsModel(ISqlConnAuthenticationService sqlAuth) : DBItemPageModel(sqlAuth)
 {
    public IEnumerable<SqlFunctionDefCmd.Result>? Function { get; private set; }
-
-   public FunctionsModel(ISqlConnAuthenticationService sqlAuth) : base(sqlAuth) { }
 
    protected override SqlGroupFlags GroupFlags => SqlGroupFlags.Functions;
 

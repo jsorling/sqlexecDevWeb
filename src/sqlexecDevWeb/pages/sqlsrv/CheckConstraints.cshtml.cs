@@ -5,11 +5,8 @@ using Sorling.SqlExecMeta.constraints;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class CheckConstraintsModel : DBItemPageModel
+public class CheckConstraintsModel(ISqlConnAuthenticationService sqlAuth) : DBItemPageModel(sqlAuth)
 {
-   public CheckConstraintsModel(ISqlConnAuthenticationService sqlAuth) : base(sqlAuth) {
-   }
-
    public SqlCheckConstraintListItem? CheckConstraintItem { get; private set; }
 
    protected override SqlGroupFlags GroupFlags => SqlGroupFlags.CheckConstraints;

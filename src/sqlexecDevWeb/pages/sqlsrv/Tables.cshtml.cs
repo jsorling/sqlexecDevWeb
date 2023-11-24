@@ -6,11 +6,9 @@ using Sorling.SqlExecMeta.objects.tables;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class TablesModel : DBItemPageModel
+public class TablesModel(ISqlConnAuthenticationService sqlAuth) : DBItemPageModel(sqlAuth)
 {
    public IEnumerable<TableDefCmd.Result>? Table { get; private set; }
-
-   public TablesModel(ISqlConnAuthenticationService sqlAuth) : base(sqlAuth) { }
 
    protected override SqlGroupFlags GroupFlags => SqlGroupFlags.Tables;
 

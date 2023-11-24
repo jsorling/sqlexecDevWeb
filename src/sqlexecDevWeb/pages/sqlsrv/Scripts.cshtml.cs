@@ -6,7 +6,7 @@ using Sorling.SqlExecMeta.objects;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class ScriptModel : PageModel
+public class ScriptsModel : PageModel
 {
    [BindProperty(Name = "db", SupportsGet = true)]
    public string? DBName { get; set; }

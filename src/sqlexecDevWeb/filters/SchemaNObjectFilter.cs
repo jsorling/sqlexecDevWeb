@@ -3,23 +3,18 @@ using Sorling.SqlExecMeta;
 
 namespace Sorling.sqlexecDevWeb.filters;
 
-public class SchemaNObjectFilter : IAsyncPageFilter
+[AttributeUsage(AttributeTargets.Class)]
+public class SchemaNObjectFilterAttribute : Attribute, IAsyncPageFilter
 {
-   private readonly string _rd1;
+   private readonly string _rd1 = "schema";
 
-   private readonly string _rd2;
+   private readonly string _rd2 = "obj";
 
-   private readonly string _rd3;
-
-   public SchemaNObjectFilter(string routeDataKey1st = "schema", string routeDataKey2nd = "obj", string routeDataKey3rd = "filter") {
-      _rd1 = routeDataKey1st;
-      _rd2 = routeDataKey2nd;
-      _rd3 = routeDataKey3rd;
-   }
+   private readonly string _rd3 = "filter";   
 
    public async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
       => await next.Invoke();
-
+   
    public Task OnPageHandlerSelectionAsync(PageHandlerSelectedContext context) {
       string parschema = context.RouteData.Values[_rd1]?.ToString() ?? string.Empty;
       string parobj = context.RouteData.Values[_rd2]?.ToString() ?? string.Empty;
@@ -48,6 +43,11 @@ public class SchemaNObjectFilter : IAsyncPageFilter
             // second (parobj) is filter
             context.RouteData.Values[RouteDataKeysConsts.REQSQLFILTERKEY] = (SqlGroupFlags)f;
          }
+      }
+
+      string? page = context.RouteData.Values["page"]?.ToString()?.Split('/').LastOrDefault();
+      if (page != null && Enum.TryParse(page, true, out SqlGroupFlags flags)) {
+         context.RouteData.Values[RouteDataKeysConsts.REQSQLPAGEGROUPKEY] = flags;
       }
 
       return Task.CompletedTask;

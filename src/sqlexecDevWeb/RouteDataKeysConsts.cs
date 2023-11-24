@@ -13,4 +13,6 @@ public class RouteDataKeysConsts
    public const string URLROUTEPARAMPROJECT = "prj";
 
    public const string DEFAULTEMPTYPROJECT = "noproject";
+
+   public const string REQSQLPAGEGROUPKEY = "schemanobjectsqlgroupkey";
 }

@@ -3,16 +3,15 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Sorling.SqlConnAuthWeb.authentication;
 using Sorling.SqlExec.runner;
+using Sorling.sqlexecDevWeb.filters;
 using Sorling.SqlExecMeta;
 
 namespace Sorling.sqlexecDevWeb.models.pagemodels;
 
-public abstract class DBSchemaPageModel : PageModel
+[SchemaNObjectFilter]
+public abstract class DBSchemaPageModel(ISqlConnAuthenticationService sqlAuth) : PageModel
 {
-   protected readonly ISqlConnAuthenticationService _sqlAuth;
-
-   public DBSchemaPageModel(ISqlConnAuthenticationService sqlAuth)
-      => _sqlAuth = sqlAuth;
+   protected readonly ISqlConnAuthenticationService _sqlAuth = sqlAuth;
 
    protected virtual ISqlMetadataProvider SqlMetadataProvider
       => new SqlMetadataProvider(new SqlExecRunner(_sqlAuth.SqlConnectionString(DBName)));
@@ -20,15 +19,14 @@ public abstract class DBSchemaPageModel : PageModel
    //@page "{db}/{schema?}"
    [BindProperty(Name = "db", SupportsGet = true)]
    public string? DBName { get; set; }
-
-   //[BindProperty(Name = "schema", SupportsGet = true)]
-   //public string? DBSchema => RouteData.Values[RouteDataKeysConsts.REQSQLSCHEMAKEY]?.ToString();
-
+   
    public IEnumerable<string>? DBSchemas { get; private set; }
 
    public Exception? SchemaError { get; private set; }
 
    public string? ObjectItem => RouteData.Values[RouteDataKeysConsts.REQSQLOBJECTKEY]?.ToString();
+
+   public SqlGroupFlags? PageGroupFlags => (SqlGroupFlags?)RouteData.Values[RouteDataKeysConsts.REQSQLPAGEGROUPKEY];
 
    public (string schema, string name)? ObejctItemParts {
       get {

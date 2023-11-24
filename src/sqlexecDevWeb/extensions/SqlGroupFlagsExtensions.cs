@@ -29,4 +29,12 @@ public static class SqlGroupFlagsExtensions
       SqlGroupFlags.Triggers => "Trigger",
       _ => "Unknown",
    };
+
+   public static bool In(this SqlGroupFlags sqlGroupFlags, params SqlGroupFlags[] flags) {
+      foreach (SqlGroupFlags flag in flags) {
+         if(flag == sqlGroupFlags) return true;
+      }
+
+      return false;
+   }
 }
