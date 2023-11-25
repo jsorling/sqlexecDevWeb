@@ -27,7 +27,7 @@
             {
                 <a class="nav-link text-light" sed-page="SqlGroupFlags.TopLevel">Database:@(db)</a>
                 <a class="nav-link text-light" sed-page="SqlGroupFlags.Scripts">Script</a>
-                <a class="nav-link text-light" href="#">Project</a>
+                <a class="nav-link text-light" sed-page-byname="projects">Project</a>
             }
             <partial name="_themeButton" />
         </div>
@@ -39,12 +39,8 @@
         @RenderBody()
     </div>
 
-    <footer class="footer mt-auto">
-        <div class="container text-end">
-            <span class="text-muted">
-                <a class="text-reset text-decoration-none" href="https://github.com/jsorling/sqlexecDevWeb">sqlexecDevWeb @($"{BuildInfo.Version} {BuildInfo.Date}")</a>
-            </span>
-        </div>
+    <footer class="footer mt-auto text-end">
+        <a class="text-muted text-reset text-decoration-none pe-2" href="https://github.com/jsorling/sqlexecDevWeb">sqlexecDevWeb @($"{BuildInfo.Version} {BuildInfo.Date}")</a>
     </footer>
 
     <script src="~/lib/jquery/jquery.min.js" asp-append-version="true"></script>

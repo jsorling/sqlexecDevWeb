@@ -21,6 +21,7 @@ namespace Sorling.sqlexecDevWeb.taghelpers;
 [HtmlTargetElement("a", Attributes = _prvItemAttributeName)]
 [HtmlTargetElement("a", Attributes = _nxtItemAttributeName)]
 [HtmlTargetElement("a", Attributes = _pageClassActiveAttributeName)]
+[HtmlTargetElement("a", Attributes = _pageByNameAttributeName)]
 public class DbLinkTagHelper(IHtmlGenerator htmlGenerator) : TagHelper
 {
    private const string _schemaAttributeName = "sed-schema";
@@ -42,6 +43,8 @@ public class DbLinkTagHelper(IHtmlGenerator htmlGenerator) : TagHelper
    private const string _nxtItemAttributeName = "sed-nxt-item";
 
    private const string _pageClassActiveAttributeName = "sed-class-page-active";
+
+   private const string _pageByNameAttributeName = "sed-page-byname";
 
    [HtmlAttributeName(_schemaAttributeName)]
    public string? Schema { get; set; }
@@ -72,6 +75,9 @@ public class DbLinkTagHelper(IHtmlGenerator htmlGenerator) : TagHelper
 
    [HtmlAttributeName(_nxtItemAttributeName)]
    public IPrevNxtSqlItem? NxtItem { get; set; }
+
+   [HtmlAttributeName(_pageByNameAttributeName)]
+   public string? PageByName { get; set; }
 
    [HtmlAttributeNotBound]
    [ViewContext]
@@ -110,7 +116,7 @@ public class DbLinkTagHelper(IHtmlGenerator htmlGenerator) : TagHelper
       string? outobject = null;
       string? outfilter = null;
 
-      string pg = Page?.GetPageAction() ?? ViewContext.RouteData.Values["page"]?.ToString()
+      string pg = PageByName ?? Page?.GetPageAction() ?? ViewContext.RouteData.Values["page"]?.ToString()
          ?? SqlGroupFlags.Objects.GetPageAction();
 
       if (SqlItem is not null) {

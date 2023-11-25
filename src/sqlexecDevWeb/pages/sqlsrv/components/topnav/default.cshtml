@@ -6,10 +6,10 @@
 }
 <div>
     @if (db is not null){
-        <a href="@(SqlAuth.UriEscapedPath())">@(SqlAuth.SqlConnAuthenticationData.SqlServer)/@(SqlAuth.SqlConnAuthenticationData.UserName)</a><a sed-page="Sorling.SqlExecMeta.SqlGroupFlags.TopLevel">/@db</a>
+        <a class="ps-2" href="@(SqlAuth.UriEscapedPath())">@(SqlAuth.SqlConnAuthenticationData.SqlServer)/@(SqlAuth.SqlConnAuthenticationData.UserName)</a><a sed-page="Sorling.SqlExecMeta.SqlGroupFlags.TopLevel">/@db</a>
     }
     else
     {
-        <a href="@(SqlAuth.UriEscapedPath())">@(SqlAuth.SqlConnAuthenticationData.SqlServer)/@(SqlAuth.SqlConnAuthenticationData.UserName)</a>
+        <a class="ps-2" href="@(SqlAuth.UriEscapedPath())">@(SqlAuth.SqlConnAuthenticationData.SqlServer)/@(SqlAuth.SqlConnAuthenticationData.UserName)</a>
     }
 </div>

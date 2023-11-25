@@ -3,14 +3,46 @@
 @{
 }
 
-@if(Model.DBItems is not null) {
+@if (Model.DBItems is not null)
+{
     <partial name="_schemaNavSelectPartial" for="@Model" />
     <partial name="_itemsListPartial" for="@Model" />
-} 
-else if(Model.Table is not null){
+}
+else if (Model.Table is not null)
+{
     var first = Model.Table.First();
     <partial name="_itemPrevNxtPartial" for="@Model" />
     <h1>Table @($"{first.Schema}.{first.Name}")</h1>
     <h2>Columns</h2>
-    <partial name="_fieldsNParamsPartial" for="@Model.Table"/>
+    <partial name="_fieldsNParamsPartial" for="@Model.Table" />
+    if (Model.CheckConstraints?.Any() ?? false)
+    {
+        <h2>Check constraints</h2>
+        <table class="table table-striped">
+            <tr><th>Name</th><th>Column</th><th>Check</th></tr>
+            @foreach (var c in Model.CheckConstraints)
+            {
+                <tr>
+                    <td><a sed-sqlitem="c" sed-filter-keep>@c.Name</a></td>
+                    <td>@c.ColumnName</td>
+                    <td>@c.Definition</td>
+                </tr>
+            }
+        </table>
+    }
+    if (Model.DefaultConstraints?.Any() ?? false)
+    {
+        <h2>Default constraints</h2>
+        <table class="table table-striped">
+            <tr><th>Name</th><th>Column</th><th>Default</th></tr>
+            @foreach (var c in Model.DefaultConstraints)
+            {
+                <tr>
+                    <td><a sed-sqlitem="c" sed-filter-keep>@c.Name</a></td>
+                    <td>@c.ColumnName</td>
+                    <td>@c.Definition</td>
+                </tr>
+            }
+        </table>
+    }
 }
