@@ -1,20 +1,20 @@
 ﻿@using Sorling.SqlExecMeta;
 @using Sorling.sqlexecDevWeb.pages.sqlsrv.components;
+@using Sorling.sqlexecDevWeb;
 @{
-    string? schema = ViewContext.RouteData.Values["schema"]?.ToString()?.Split("/").Last();
 }
 <!DOCTYPE html>
 
 <html data-bs-theme="auto" lang="en">
 <head>
     <meta name="viewport" content="width=device-width" />
-    <meta name="build-info" content="@await Html.PartialAsync("BuildInfo")">
+    <meta name="build-info" content="@($"{BuildInfo.Version} {BuildInfo.Date}")">
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" asp-append-version="true" />
     <link data-name="vs/editor/editor.main" rel="stylesheet" href="~/lib/monaco-editor/min/vs/editor/editor.main.min.css">
     <script src="~/js/themeswitcher.js" asp-append-version="true"></script>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <nav class="navbar sticky-top bg-primary">
         <div class="container-fluid">
             <a class="nav-link text-light" href="/">
@@ -38,6 +38,15 @@
     <div class="container">
         @RenderBody()
     </div>
+
+    <footer class="footer mt-auto">
+        <div class="container text-end">
+            <span class="text-muted">
+                <a class="text-reset text-decoration-none" href="https://github.com/jsorling/sqlexecDevWeb">sqlexecDevWeb @($"{BuildInfo.Version} {BuildInfo.Date}")</a>
+            </span>
+        </div>
+    </footer>
+
     <script src="~/lib/jquery/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
