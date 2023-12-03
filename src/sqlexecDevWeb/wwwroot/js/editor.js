@@ -26,7 +26,9 @@ require(['vs/editor/editor.main'], function () {
             })
 
         monacoEditor.updateOptions({ readOnly: false });
-        $(window).resize(function () { monacoEditor.layout() });
+        $(window).on("resize", function () {
+            monacoEditor.layout();
+        });
 
         var inputSource = $(this).data('inputsource')
         if (typeof inputSource !== 'undefined') {
@@ -36,7 +38,7 @@ require(['vs/editor/editor.main'], function () {
 
                 $('FORM').each(function (i, obj) {
                     obj.addEventListener('submit', (event) => {
-                        inputElm.value = monacoEditor.getModel().getValue();                        
+                        inputElm.value = monacoEditor.getModel().getValue();
                         return false;
                     })
                 })

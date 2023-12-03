@@ -12,4 +12,7 @@
     <partial name="_itemPrevNxtPartial" for="@Model" />
     <h1>Default constraint @($"{Model.DefaultConstraintItem.SchemaName}.{Model.DefaultConstraintItem.Name}")</h1>
     <partial name="_itemTextPartial" for="@Model" />
+    <h2>Table</h2>
+    var sqlitem = Model.DefaultConstraintItem.GetTableSqlItem();
+    <a sed-sqlitem="sqlitem" sed-filter-keep>@($"{sqlitem.SchemaName}.{sqlitem.Name}")</a>
 }
