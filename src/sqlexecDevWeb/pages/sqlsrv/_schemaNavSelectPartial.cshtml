@@ -10,11 +10,10 @@
 }
 
 <div class="btn-group flex-wrap">
-    @if (pageFlags.In(SqlGroupFlags.Tables, SqlGroupFlags.Views, SqlGroupFlags.Triggers))
+    @if (pageFlags.In(SqlGroupFlags.Tables, SqlGroupFlags.Views))
     {
         <a class="btn btn-primary flex-grow-0" sed-class-page-active="active" sed-page="SqlGroupFlags.Tables">Tables</a>
         <a class="btn btn-primary flex-grow-0" sed-class-page-active="active" sed-page="SqlGroupFlags.Views">Views</a>
-        <a class="btn btn-primary flex-grow-0" sed-class-page-active="active" sed-page="SqlGroupFlags.Triggers">Triggers</a>
     }
     else
     {
@@ -25,11 +24,11 @@
         </a>
     }
 
-    @if (pageFlags.In(SqlGroupFlags.StoredProcedures, SqlGroupFlags.Functions))
+    @if (pageFlags.In(SqlGroupFlags.StoredProcedures, SqlGroupFlags.Functions, SqlGroupFlags.Triggers))
     {
-
         <a class="btn btn-primary flex-grow-0" sed-class-page-active="active" sed-page="SqlGroupFlags.StoredProcedures">Stored procedures</a>
         <a class="btn btn-primary flex-grow-0" sed-class-page-active="active" sed-page="SqlGroupFlags.Functions">Functions</a>
+        <a class="btn btn-primary flex-grow-0" sed-class-page-active="active" sed-page="SqlGroupFlags.Triggers">Triggers</a>
     }
     else
     {
