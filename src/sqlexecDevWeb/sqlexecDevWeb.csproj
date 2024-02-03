@@ -11,8 +11,8 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
-        <PackageReference Include="Sorling.SqlConnAuthWeb" Version="0.9.1.7" />
-        <PackageReference Include="Sorling.SqlExecMeta" Version="0.9.1.9" />
+        <PackageReference Include="Sorling.SqlConnAuthWeb" Version="0.9.1.8" />
+        <PackageReference Include="Sorling.SqlExecMeta" Version="0.9.1.10" />
     </ItemGroup>
 
     <ItemGroup>
