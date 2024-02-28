@@ -8,3 +8,7 @@
 /src/sqlexecDevWeb/wwwroot/lib
 /src/.vs
 /src/sqlexecDevWeb/sqlexecDevWeb.csproj.user
+/src/sqlexecCodeGen/bin
+/src/sqlexecCodeGen/obj
+/src/CodeGenTests/obj
+/src/CodeGenTests/bin

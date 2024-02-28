@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Sorling.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>Sorling.$(MSBuildProjectName)</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Sorling.SqlExecMeta" Version="0.9.1.11" />
+  </ItemGroup>
+
+</Project>
