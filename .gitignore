@@ -12,3 +12,8 @@
 /src/sqlexecCodeGen/obj
 /src/CodeGenTests/obj
 /src/CodeGenTests/bin
+/src/CodeOutput/obj
+/src/CodeOutput/bin
+/src/CodeOutputTests/bin/Debug/net8.0
+/src/CodeOutputTests/obj
+/src/CodeOutputTests/bin

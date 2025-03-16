@@ -1,11 +1,11 @@
-name: Build and deploy .NET Core application to Web App sqlexec
+name: Build and publish
 on:
   workflow_dispatch:
 env:
   AZURE_WEBAPP_NAME: sqlexec
   AZURE_WEBAPP_PACKAGE_PATH: ./published
   CONFIGURATION: Release
-  DOTNET_CORE_VERSION: 8.0.x
+  DOTNET_CORE_VERSION: 9.0.x
   WORKING_DIRECTORY: .
   PS_SOURCE_URL: "https://raw.githubusercontent.com/jsorling/miscscripts/main/github/actions"
 jobs:
@@ -19,44 +19,15 @@ jobs:
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
     - name: Set build info
       run: '& iex ((New-Object System.Net.WebClient).DownloadString("$env:PS_SOURCE_URL/buildinfo.ps1"))'
-      shell: pwsh
-    - name: Create nuget.config
-      run: dotnet new nugetconfig
-    - name: Set nuget add azure public feed
-      run: >
-        dotnet nuget add
-        source https://pkgs.dev.azure.com/sorling/PublicFeed/_packaging/PublicFeed/nuget/v3/index.json
-        -n azurepublic
-        --configfile nuget.config
-    - name: Build
-      run: >
-        dotnet build
-        src/sqlexecDevWeb/sqlexecDevWeb.csproj 
-        --configuration ${{ env.CONFIGURATION }}
+      shell: pwsh    
     - name: Publish
       run: >
         dotnet publish
         src/sqlexecDevWeb/sqlexecDevWeb.csproj
         --configuration ${{ env.CONFIGURATION }}
-        --no-build
         --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
     - name: Publish Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: webapp
         path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Download artifact from build job
-      uses: actions/download-artifact@v3
-      with:
-        name: webapp
-        path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-    - name: Deploy to Azure WebApp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.sqlexec_46CF }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}

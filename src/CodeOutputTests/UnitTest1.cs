@@ -1,4 +1,4 @@
-namespace CodeGenTests;
+namespace CodeOutputTests;
 
 [TestClass]
 public class UnitTest1
