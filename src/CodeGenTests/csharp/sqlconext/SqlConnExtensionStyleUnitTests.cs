@@ -1,11 +1,5 @@
 ﻿using Sorling.sqlexecCodeGen.csharp.sqlconext;
 using Sorling.sqlexecCodeGen.helpers;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeGenTests.csharp.sqlconext;
 

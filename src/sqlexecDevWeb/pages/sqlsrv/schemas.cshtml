@@ -9,7 +9,7 @@
     <table>
         @foreach (var sc in Model.DBSchemas)
         {
-            <tr><td><a href="@($"{SqlAuth.UriEscapedPath()}/objects/{Model.DBName}/{sc}")">@sc</a></td></tr>
+            <tr><td><a href="@($"{SqlAuth.UriEscapedPath}/objects/{Model.DBName}/{sc}")">@sc</a></td></tr>
         }
     </table>
 }

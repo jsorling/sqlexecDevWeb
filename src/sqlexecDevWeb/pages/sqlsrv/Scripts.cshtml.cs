@@ -12,7 +12,7 @@ public class ScriptsModel : PageModel
    public string? DBName { get; set; }
 
    [BindProperty]
-   public ScriptInputModel? ScriptInputModel { get; set; }
+   public ScriptInputModel ScriptInputModel { get; set; } = new();
 
    public Dictionary<int, IEnumerable<SqlResultSetColumn>>? ResultSets { get; private set; }
 
@@ -20,16 +20,21 @@ public class ScriptsModel : PageModel
 
    public void OnGet() => ScriptInputModel = new() { SqlScriptText = "select cast(1 as int) anint;" };
 
-   public async Task<IActionResult> OnPostAsync([FromServices] ISqlConnAuthenticationService sqlAuth) {
-      if (ModelState.IsValid) {
-         try {
+   public async Task<IActionResult> OnPostAsync([FromServices] ISqlAuthService sqlAuth) {
+      if (ModelState.IsValid)
+      {
+         try
+         {
             (Dictionary<int, IEnumerable<SqlResultSetColumn>> ResultSets, string QuerySql) rs =
-               await new SqlResultSets(sqlAuth.SqlConnectionString(DBName)).GetResultSetsAsync(ScriptInputModel!.SqlScriptText!);
+               await new SqlResultSets(sqlAuth.GetConnectionString(DBName)
+                  ?? throw new ApplicationException("Failed to obtain SQL server connection string"))
+               .GetResultSetsAsync(ScriptInputModel.SqlScriptText ?? "");
 
             ResultSets = rs.ResultSets;
             ResultSetSql = rs.QuerySql;
          }
-         catch (Exception ex) {
+         catch (Exception ex)
+         {
             ModelState.AddModelError("SqlScriptText", ex.Message);
          }
       }

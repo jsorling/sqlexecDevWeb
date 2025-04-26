@@ -7,11 +7,13 @@ public static class ViewDefExtensions
    public static string GetPropertyString(this SqlViewDefCmd.Result tableDefCmdRes) {
       List<string> list = new();
 
-      if (tableDefCmdRes.HasDefault ?? false) {
+      if (tableDefCmdRes.HasDefault ?? false)
+      {
          list.Add("Has default");
       }
 
-      if (tableDefCmdRes.IsNullable) {
+      if (tableDefCmdRes.IsNullable)
+      {
          list.Add("Nullable");
       }
 

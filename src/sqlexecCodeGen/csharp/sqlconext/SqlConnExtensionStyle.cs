@@ -1,16 +1,11 @@
 ﻿using Sorling.sqlexecCodeGen.helpers;
 using Sorling.SqlExecMeta.objects.storedprocedures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sorling.sqlexecCodeGen.csharp.sqlconext;
 
 public class SqlConnExtensionStyle : ISqlexecCodeGenerator
 {
-   public ISqlexecCodeProjectSettings ProjectSettings { get ; init; }
+   public ISqlexecCodeProjectSettings ProjectSettings { get; init; }
 
    public SqlConnExtensionStyle(ISqlexecCodeProjectSettings projectSettings) {
       ArgumentNullException.ThrowIfNull(projectSettings, nameof(projectSettings));

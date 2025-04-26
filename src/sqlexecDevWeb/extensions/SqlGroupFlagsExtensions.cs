@@ -31,8 +31,10 @@ public static class SqlGroupFlagsExtensions
    };
 
    public static bool In(this SqlGroupFlags sqlGroupFlags, params SqlGroupFlags[] flags) {
-      foreach (SqlGroupFlags flag in flags) {
-         if(flag == sqlGroupFlags) return true;
+      foreach (SqlGroupFlags flag in flags)
+      {
+         if (flag == sqlGroupFlags)
+            return true;
       }
 
       return false;

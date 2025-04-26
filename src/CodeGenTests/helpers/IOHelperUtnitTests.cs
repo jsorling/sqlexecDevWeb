@@ -7,6 +7,6 @@ namespace CodeGenTests.helpers;
 public class IOHelperUtnitTests
 {
    [TestMethod]
-   public void LoadResourceString() 
+   public void LoadResourceString()
       => Assert.IsTrue(IOHelper.LoadResourceString($"{CSharpConsts.RESOURCEPATH}SqlConnectionExtensionTemplate.cs").Length > 0);
 }

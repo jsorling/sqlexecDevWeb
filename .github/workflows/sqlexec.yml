@@ -12,22 +12,27 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
     - name: Set build info
       run: '& iex ((New-Object System.Net.WebClient).DownloadString("$env:PS_SOURCE_URL/buildinfo.ps1"))'
-      shell: pwsh    
+      shell: pwsh
     - name: Publish
       run: >
         dotnet publish
         src/sqlexecDevWeb/sqlexecDevWeb.csproj
         --configuration ${{ env.CONFIGURATION }}
-        --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+        --output "${{ env.WEBAPP_PACKAGE_PATH }}"
+        -p:PublishSingleFile=true
+        --self-contained false
+        --runtime linux-x64
+        -p:DebugSymbols=false
+        -p:DebugType=None
     - name: Publish Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: webapp
         path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}

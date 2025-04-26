@@ -5,7 +5,7 @@ using Sorling.SqlExecMeta.types;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class TypesModel(ISqlConnAuthenticationService sqlAuth) : DBItemPageModel(sqlAuth)
+public class TypesModel(ISqlAuthService sqlAuth) : DBItemPageModel(sqlAuth)
 {
    public IEnumerable<SqlTypeListItem>? TypeItems { get; private set; }
 

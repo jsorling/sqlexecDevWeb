@@ -11,6 +11,6 @@ public class CodeProjectSettings : ISqlexecCodeProjectSettings
    public string ClassName { get; init; }
 
    public CodeProjectSettings(string projectName, string projectNamespace, string operationClassName, string className)
-      => (ProjectName, ProjectNamespace, OperationClassName, ClassName) 
+      => (ProjectName, ProjectNamespace, OperationClassName, ClassName)
          = (projectName, projectNamespace, operationClassName, className);
 }

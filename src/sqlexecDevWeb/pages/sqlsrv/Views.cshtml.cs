@@ -5,7 +5,7 @@ using Sorling.SqlExecMeta.objects.views;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class ViewsModel(ISqlConnAuthenticationService sqlAuth) : DBItemPageModel(sqlAuth)
+public class ViewsModel(ISqlAuthService sqlAuth) : DBItemPageModel(sqlAuth)
 {
    public IEnumerable<SqlViewDefCmd.Result>? View { get; private set; }
 

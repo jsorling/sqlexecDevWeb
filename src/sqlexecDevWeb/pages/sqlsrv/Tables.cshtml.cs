@@ -1,5 +1,4 @@
 using Sorling.SqlConnAuthWeb.authentication;
-using Sorling.sqlexecDevWeb.extensions;
 using Sorling.sqlexecDevWeb.models.pagemodels;
 using Sorling.SqlExecMeta;
 using Sorling.SqlExecMeta.constraints;
@@ -7,7 +6,7 @@ using Sorling.SqlExecMeta.objects.tables;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class TablesModel(ISqlConnAuthenticationService sqlAuth) : DBItemPageModel(sqlAuth)
+public class TablesModel(ISqlAuthService sqlAuth) : DBItemPageModel(sqlAuth)
 {
    public IEnumerable<TableDefCmd.Result>? Table { get; private set; }
 

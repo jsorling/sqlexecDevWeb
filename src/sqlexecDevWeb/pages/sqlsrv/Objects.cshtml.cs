@@ -5,7 +5,7 @@ using Sorling.SqlExecMeta.objects;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class ObjectsModel(ISqlConnAuthenticationService sqlAuth) : DBItemPageModel(sqlAuth)
+public class ObjectsModel(ISqlAuthService sqlAuth) : DBItemPageModel(sqlAuth)
 {
    public IEnumerable<SqlObjectListItem>? Objects { get; private set; }
 

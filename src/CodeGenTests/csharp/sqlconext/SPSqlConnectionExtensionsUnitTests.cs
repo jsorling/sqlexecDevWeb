@@ -1,12 +1,5 @@
 ﻿using Sorling.sqlexecCodeGen.csharp.sqlconext;
-using Sorling.SqlExecMeta;
 using Sorling.SqlExecMeta.objects.storedprocedures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace CodeGenTests.csharp.sqlconext;
 
@@ -14,7 +7,7 @@ namespace CodeGenTests.csharp.sqlconext;
 public class SPSqlConnectionExtensionsUnitTests
 {
    [TestMethod]
-   public void WriteTemplate() 
+   public void WriteTemplate()
       => SPSqlConnectionExtensions.WriteTemplateToFile(".\\..\\..\\..\\..\\CodeOutput\\SPSqlConnectionExtensions.cs");
 
    [TestMethod]

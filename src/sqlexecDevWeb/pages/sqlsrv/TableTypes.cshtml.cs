@@ -5,7 +5,7 @@ using Sorling.SqlExecMeta.objects.tabletypes;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class TableTypesModel(ISqlConnAuthenticationService sqlAuth) : DBItemPageModel(sqlAuth)
+public class TableTypesModel(ISqlAuthService sqlAuth) : DBItemPageModel(sqlAuth)
 {
    public IEnumerable<SqlTableTypeDefCmd.Result>? TableType { get; private set; }
 

@@ -6,7 +6,7 @@ namespace Sorling.sqlexecDevWeb.models.pagemodels;
 
 public abstract class DBItemPageModel : DBSchemaPageModel
 {
-   protected DBItemPageModel(ISqlConnAuthenticationService sqlAuth) : base(sqlAuth) {
+   protected DBItemPageModel(ISqlAuthService sqlAuth) : base(sqlAuth) {
    }
 
    protected abstract SqlGroupFlags GroupFlags { get; }
@@ -44,16 +44,19 @@ public abstract class DBItemPageModel : DBSchemaPageModel
       => await Task.FromResult<IPrevNxtSqlItem?>(null);
 
    public async Task<IActionResult> OnGetAsync() {
-      if (ObejctItemParts is (string, string) parts) {
+      if (ObejctItemParts is (string, string) parts)
+      {
          DBItem = await GetSqlItemAsync(parts.schema, parts.name);
          if (DBItem == null)
             return NotFound();
 
-         try {
+         try
+         {
             //DefinitionText = await SqlMetadataProvider.GetSqlObjectTextAsync(ItemFullName!);
             DefinitionText = await GetDefinitionTextAsync(parts.schema, parts.name);
          }
-         catch (Exception ex) {
+         catch (Exception ex)
+         {
 
             DefinitionTextException = ex;
          }
@@ -62,7 +65,8 @@ public abstract class DBItemPageModel : DBSchemaPageModel
 
          return Page();
       }
-      else {
+      else
+      {
          FilterInt = (int)GroupFlags;
          FilterSchema = SchemaFolder;
          DBItems = await GetSqlListItemsAsync(SchemaFolder);

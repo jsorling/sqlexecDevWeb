@@ -22,7 +22,7 @@
                     <img src="/img/connect.png" />
                 </span>
             </a>
-            <a class="nav-link text-light" href="@($"{SqlAuth.UriEscapedPath()}")">@(SqlAuth.SqlConnAuthenticationData.SqlServer)/@SqlAuth.SqlConnAuthenticationData.UserName</a>
+            <a class="nav-link text-light" href="@($"{SqlAuth.UriEscapedPath}")">@(SqlAuth.SQLServer)/@SqlAuth.UserName</a>
             @if (ViewContext.RouteData.Values["db"] is string db)
             {
                 <a class="nav-link text-light" sed-page="SqlGroupFlags.TopLevel">Database:@(db)</a>

@@ -5,7 +5,7 @@ using Sorling.SqlExecMeta.objects.triggers;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class TriggersModel(ISqlConnAuthenticationService sqlAuth) : DBItemPageModel(sqlAuth)
+public class TriggersModel(ISqlAuthService sqlAuth) : DBItemPageModel(sqlAuth)
 {
    public SqlTriggerItem? Trigger { get; private set; }
 

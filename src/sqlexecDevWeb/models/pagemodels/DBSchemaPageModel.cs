@@ -9,17 +9,18 @@ using Sorling.SqlExecMeta;
 namespace Sorling.sqlexecDevWeb.models.pagemodels;
 
 [SchemaNObjectFilter]
-public abstract class DBSchemaPageModel(ISqlConnAuthenticationService sqlAuth) : PageModel
+public abstract class DBSchemaPageModel(ISqlAuthService sqlAuth) : PageModel
 {
-   protected readonly ISqlConnAuthenticationService _sqlAuth = sqlAuth;
+   protected readonly ISqlAuthService _sqlAuth = sqlAuth;
 
    protected virtual ISqlMetadataProvider SqlMetadataProvider
-      => new SqlMetadataProvider(new SqlExecRunner(_sqlAuth.SqlConnectionString(DBName)));
+      => new SqlMetadataProvider(new SqlExecRunner(_sqlAuth.GetConnectionString(DBName)
+         ?? throw new ApplicationException("Failed to obtain SQL connection string")));
 
    //@page "{db}/{schema?}"
    [BindProperty(Name = "db", SupportsGet = true)]
    public string? DBName { get; set; }
-   
+
    public IEnumerable<string>? DBSchemas { get; private set; }
 
    public Exception? SchemaError { get; private set; }
@@ -31,7 +32,8 @@ public abstract class DBSchemaPageModel(ISqlConnAuthenticationService sqlAuth) :
    public (string schema, string name)? ObejctItemParts {
       get {
          string? fullname = ObjectItem;
-         if (string.IsNullOrEmpty(fullname)) {
+         if (string.IsNullOrEmpty(fullname))
+         {
             return null;
          }
 
@@ -46,10 +48,12 @@ public abstract class DBSchemaPageModel(ISqlConnAuthenticationService sqlAuth) :
    public SqlGroupFlags? FilterGroup => (SqlGroupFlags?)(RouteData.Values[RouteDataKeysConsts.REQSQLFILTERKEY] ?? null);
 
    public override async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next) {
-      try {
+      try
+      {
          DBSchemas = await SqlMetadataProvider.GetSqlSchemasAsync();
       }
-      catch (Exception ex) {
+      catch (Exception ex)
+      {
          SchemaError = ex;
       }
 

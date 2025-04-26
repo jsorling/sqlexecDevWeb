@@ -5,7 +5,7 @@ using Sorling.SqlExecMeta.constraints;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class CheckConstraintsModel(ISqlConnAuthenticationService sqlAuth) : DBItemPageModel(sqlAuth)
+public class CheckConstraintsModel(ISqlAuthService sqlAuth) : DBItemPageModel(sqlAuth)
 {
    public SqlCheckConstraintListItem? CheckConstraintItem { get; private set; }
 
@@ -14,7 +14,8 @@ public class CheckConstraintsModel(ISqlConnAuthenticationService sqlAuth) : DBIt
    protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync(string? schema)
       => await SqlMetadataProvider.GetCheckContraintsAsync(schema);
 
-   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync(string schema, string name, string? schemaFolder, SqlGroupFlags? filterGroups)
+   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync(string schema, string name
+      , string? schemaFolder, SqlGroupFlags? filterGroups)
       => await SqlMetadataProvider.GetSqlCheckConstraintPrevNxtAsync($"{schema}.{name}", schemaFolder);
 
    protected override async Task<ISqlItem?> GetSqlItemAsync(string schema, string name) {
@@ -22,5 +23,6 @@ public class CheckConstraintsModel(ISqlConnAuthenticationService sqlAuth) : DBIt
       return CheckConstraintItem;
    }
 
-   protected override Task<string?> GetDefinitionTextAsync(string schema, string name) => Task.FromResult(CheckConstraintItem?.Definition);
+   protected override Task<string?> GetDefinitionTextAsync(string schema, string name)
+      => Task.FromResult(CheckConstraintItem?.Definition);
 }

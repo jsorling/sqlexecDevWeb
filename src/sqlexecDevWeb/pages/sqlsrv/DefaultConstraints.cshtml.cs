@@ -5,11 +5,8 @@ using Sorling.SqlExecMeta.constraints;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class DefaultConstraintsModel : DBItemPageModel
+public class DefaultConstraintsModel(ISqlAuthService sqlAuth) : DBItemPageModel(sqlAuth)
 {
-   public DefaultConstraintsModel(ISqlConnAuthenticationService sqlAuth) : base(sqlAuth) {
-   }
-
    public SqlDefaultConstraintListItem? DefaultConstraintItem { get; private set; }
 
    protected override SqlGroupFlags GroupFlags => SqlGroupFlags.DefaultConstraints;
@@ -17,7 +14,8 @@ public class DefaultConstraintsModel : DBItemPageModel
    protected override async Task<IEnumerable<ISqlItem>?> GetSqlListItemsAsync(string? schema)
       => await SqlMetadataProvider.GetDefaultContraintsAsync(schema);
 
-   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync(string schema, string name, string? schemaFolder, SqlGroupFlags? filterGroups)
+   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync(string schema, string name
+      , string? schemaFolder, SqlGroupFlags? filterGroups)
       => await SqlMetadataProvider.GetSqlDefaultConstraintPrevNxtAsync($"{schema}.{name}", schemaFolder);
 
    protected override async Task<ISqlItem?> GetSqlItemAsync(string schema, string name) {
@@ -25,5 +23,6 @@ public class DefaultConstraintsModel : DBItemPageModel
       return DefaultConstraintItem;
    }
 
-   protected override Task<string?> GetDefinitionTextAsync(string schema, string name) => Task.FromResult(DefaultConstraintItem?.Definition);
+   protected override Task<string?> GetDefinitionTextAsync(string schema, string name)
+      => Task.FromResult(DefaultConstraintItem?.Definition);
 }

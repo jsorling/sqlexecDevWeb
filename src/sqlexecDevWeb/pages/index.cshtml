@@ -13,7 +13,7 @@
                 <input asp-for="Input!.SqlServer" class="form-control" autofocus>
                 <span asp-validation-for="Input!.SqlServer" class="text-danger"></span>
             </div>
-            @if (Model.SqlConnAuthenticationOptions.AllowWinauth)
+            @if (Model.SQLAuthOptions.AllowIntegratedSecurity)
             {
                 <div>
                     <input type="checkbox" id="winauthcheck">Use Windows authentication
@@ -30,7 +30,7 @@
         </form>
     </div>
 </div>
-@if (Model.SqlConnAuthenticationOptions.AllowWinauth)
+@if (Model.SQLAuthOptions.AllowIntegratedSecurity)
 {
     <script>
         document.addEventListener("DOMContentLoaded", () => {

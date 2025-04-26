@@ -88,12 +88,14 @@ public class DbLinkTagHelper(IHtmlGenerator htmlGenerator) : TagHelper
       ArgumentNullException.ThrowIfNull(output);
       ArgumentNullException.ThrowIfNull(ViewContext);
 
-      if ((PrvItem is not null && SqlItem is not null) || (NxtItem is not null && SqlItem is not null)) {
+      if ((PrvItem is not null && SqlItem is not null) || (NxtItem is not null && SqlItem is not null))
+      {
          throw new InvalidOperationException(
             $"{_prvItemAttributeName} or {_nxtItemAttributeName} and {_objectAttributeName} can not be set at the same time in an <a>-tag");
       }
 
-      if (PrvItem is not null && NxtItem is not null) {
+      if (PrvItem is not null && NxtItem is not null)
+      {
          throw new InvalidOperationException($"Both {_nxtItemAttributeName} and {_prvItemAttributeName} can not be set in <a>-tag");
 
       }
@@ -105,8 +107,8 @@ public class DbLinkTagHelper(IHtmlGenerator htmlGenerator) : TagHelper
          ?? RouteDataKeysConsts.DEFAULTEMPTYPROJECT;
 
       RouteValueDictionary routevalues = new() {
-         { SqlConnAuthConsts.URLROUTEPARAMSRV, ViewContext.RouteData.Values[SqlConnAuthConsts.URLROUTEPARAMSRV] },
-         { SqlConnAuthConsts.URLROUTEPARAMUSR, ViewContext.RouteData.Values[SqlConnAuthConsts.URLROUTEPARAMUSR] },
+         { SqlAuthConsts.URLROUTEPARAMSRV, ViewContext.RouteData.Values[SqlAuthConsts.URLROUTEPARAMSRV] },
+         { SqlAuthConsts.URLROUTEPARAMUSR, ViewContext.RouteData.Values[SqlAuthConsts.URLROUTEPARAMUSR] },
          { RouteDataKeysConsts.URLROUTEPARAMDB, db }, { RouteDataKeysConsts.URLROUTEPARAMPROJECT, prj } };
 
       string? outschema = Schema == "" ? null
@@ -119,53 +121,65 @@ public class DbLinkTagHelper(IHtmlGenerator htmlGenerator) : TagHelper
       string pg = PageByName ?? Page?.GetPageAction() ?? ViewContext.RouteData.Values["page"]?.ToString()
          ?? SqlGroupFlags.Objects.GetPageAction();
 
-      if (SqlItem is not null) {
+      if (SqlItem is not null)
+      {
          outobject = SqlItem.FQItemName();
          pg = SqlItem.GroupFlag.GetPageAction();
       }
 
-      if (FilterCurrentPage) {
+      if (FilterCurrentPage)
+      {
          string? currentpage = ViewContext.RouteData.Values["page"]?.ToString()?.Split('/').LastOrDefault();
-         if (Enum.TryParse(currentpage, true, out SqlGroupFlags flags)) {
+         if (Enum.TryParse(currentpage, true, out SqlGroupFlags flags))
+         {
             outfilter = ((long)flags).ToString();
          }
       }
-      else if (FilterKeep) {
-         if (ViewContext.RouteData.Values[RouteDataKeysConsts.REQSQLFILTERKEY] is SqlGroupFlags flags) {
+      else if (FilterKeep)
+      {
+         if (ViewContext.RouteData.Values[RouteDataKeysConsts.REQSQLFILTERKEY] is SqlGroupFlags flags)
+         {
             outfilter = ((long)flags).ToString();
          }
       }
 
-      if (PrvItem is not null) {
-         ArgumentNullException.ThrowIfNull(PrvItem.PreviousGroup, $"{_prvItemAttributeName}.{nameof(PrvItem.PreviousGroup)}");
+      if (PrvItem is not null && PrvItem.PreviousGroup.HasValue)
+      {
          outobject = PrvItem.PreviousId;
          pg = PrvItem.PreviousGroup.Value.GetPageAction();
       }
-      else if (NxtItem is not null) {
+      else if (NxtItem is not null && NxtItem.NextGroup.HasValue)
+      {
          outobject = NxtItem.NextId;
-         ArgumentNullException.ThrowIfNull(NxtItem.NextGroup, $"{_nxtItemAttributeName}.{nameof(NxtItem.PreviousGroup)}");
          pg = NxtItem.NextGroup.Value.GetPageAction();
       }
 
-      if (!string.IsNullOrEmpty(outschema)) {
+      if (!string.IsNullOrEmpty(outschema))
+      {
          routevalues.Add("schema", outschema);
          routevalues.Add("obj", outobject);
-         if (outfilter != null) {
+         if (outfilter != null)
+         {
             routevalues.Add("filter", outfilter);
          }
       }
-      else {
+      else
+      {
          routevalues.Add("schema", outobject);
-         if (outfilter != null) {
+         if (outfilter != null)
+         {
             routevalues.Add("obj", outfilter);
          }
       }
 
       Dictionary<string, object>? htmlattributes = null;
 
-      if (!string.IsNullOrEmpty(PageClassActive) && ViewContext.CurrentPageSqlGroup() == Page) {
+      if (!string.IsNullOrEmpty(PageClassActive) && ViewContext.CurrentPageSqlGroup() == Page)
+      {
          htmlattributes = new Dictionary<string, object>() { { "class", PageClassActive } };
-      };
+      }
+
+      ;
 
       TagBuilder tagbuilder = htmlGenerator.GeneratePageLink(
          ViewContext,

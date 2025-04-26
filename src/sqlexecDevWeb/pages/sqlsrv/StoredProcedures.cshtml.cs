@@ -1,5 +1,4 @@
 using Sorling.SqlConnAuthWeb.authentication;
-using Sorling.sqlexecDevWeb.extensions;
 using Sorling.sqlexecDevWeb.models.pagemodels;
 using Sorling.SqlExecMeta;
 using Sorling.SqlExecMeta.objects;
@@ -7,7 +6,7 @@ using Sorling.SqlExecMeta.objects.storedprocedures;
 
 namespace Sorling.sqlexecDevWeb.pages.sqlsrv;
 
-public class StoredProceduresModel(ISqlConnAuthenticationService sqlAuth) : DBItemPageModel(sqlAuth)
+public class StoredProceduresModel(ISqlAuthService sqlAuth) : DBItemPageModel(sqlAuth)
 {
    public IEnumerable<SqlStoredProcedureDefCmd.Result>? SP { get; private set; }
 
@@ -20,7 +19,8 @@ public class StoredProceduresModel(ISqlConnAuthenticationService sqlAuth) : DBIt
 
    public Exception? ResultSetError { get; private set; }
 
-   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync(string schema, string name, string? schemaFolder, SqlGroupFlags? filterGroups)
+   protected override async Task<IPrevNxtSqlItem?> GetPrevNxtSqlItemAsync(string schema, string name, string? schemaFolder
+      , SqlGroupFlags? filterGroups)
       => await SqlMetadataProvider.GetSqlObjectPrevNxtAsync($"{schema}.{name}", GroupFlags, schemaFolder
          , filterGroups ?? SqlGroupFlags.Objects);
 
@@ -30,12 +30,16 @@ public class StoredProceduresModel(ISqlConnAuthenticationService sqlAuth) : DBIt
    protected override async Task<ISqlItem?> GetSqlItemAsync(string schema, string name) {
       SP = await SqlMetadataProvider.GetSqlStoredProcedureAsync(schema, name);
 
-      if (SP is not null && SP.Any()) {
-         try {
-            ResultSets = (await new SqlResultSets(_sqlAuth.SqlConnectionString(DBName))
+      if (SP is not null && SP.Any())
+      {
+         try
+         {
+            ResultSets = (await new SqlResultSets(_sqlAuth.GetConnectionString(DBName)
+               ?? throw new ApplicationException("Failed to obtain SQL connection string"))
                .GetSPResultSetsAsync($"{schema}.{name}", SP)).ResultSets;
          }
-         catch (Exception ex) {
+         catch (Exception ex)
+         {
             ResultSetError = ex;
          }
       }

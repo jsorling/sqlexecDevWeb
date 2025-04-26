@@ -1,4 +1,4 @@
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace Test.CodeGenTests;
 
@@ -18,7 +18,7 @@ public partial class CodeGenTestOperation
       using SqlCommand sqlcommand = _sqlconnection.CreateCommand();
       sqlcommand.CommandText = "dbo.something";
       sqlcommand.CommandType = System.Data.CommandType.StoredProcedure;
-      
+
       _ = sqlcommand.Parameters.AddWithValue("@par", parameter);
 
       return "";
