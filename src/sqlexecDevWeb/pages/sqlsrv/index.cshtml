@@ -1,10 +1,11 @@
 ﻿@page
 @using Sorling.SqlExecMeta;
 @using Sorling.sqlexecDevWeb.pages.sqlsrv;
+@using Sorling.sqlexecDevWeb.taghelpers;
 @model IndexModel
 
 <table>
-    @foreach (var db in Model.DBs!)
+    @foreach (var db in Model.DBs)
     {
         <tr><td><a sed-db="@db.Name" sed-page="SqlGroupFlags.TopLevel">@db.Name</a></td></tr>
     }

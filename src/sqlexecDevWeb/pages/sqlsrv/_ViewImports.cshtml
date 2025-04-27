@@ -1,6 +1,9 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@addTagHelper *, Sorling.sqlexecDevWeb
-@inject Sorling.SqlConnAuthWeb.authentication.ISqlAuthService SqlAuth
+﻿@using Sorling.sqlexecDevWeb.taghelpers;
+@using Sorling.SqlConnAuthWeb.authentication;
+@using Sorling.sqlexecDevWeb.extensions.sqlobjects;
+@using Sorling.SqlExecMeta.objects.extensions;
 
-@using Sorling.sqlexecDevWeb.extensions.sqlobjects
-@using Sorling.SqlExecMeta.objects.extensions
+@inject ISqlAuthService SqlAuth;
+
+@addTagHelper *, sqlexecdevweb
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
